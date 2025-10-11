@@ -1,0 +1,334 @@
+body {
+  background-image: url('img/5432568.JPG'); /* 画像のパスを指定 */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.metrics-panel,
+.radar-panel,
+.status-panel,
+.traffic-panel,
+.log-panel,
+.threat-matrix-panel {
+  position: relative;
+}
+section {
+  background-color: #0b111f;
+  border: 1px solid #1a1f2b;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.15);
+  padding: 15px;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
+
+section:hover {
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+section:hover {
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+h2 {
+  color: #00ffff;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: auto;
+  gap: 20px;
+  padding: 20px;
+}
+
+section {
+  background-color: #000000;
+  border: 1px solid #1a1f2b;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.15);
+  padding: 15px;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
+
+h2 {
+  color: #00ffff;
+  margin-bottom: 10px;
+}
+
+.active, .online {
+  color: #00ffcc;
+  font-weight: bold;
+}
+
+#event-log {
+  list-style: none;
+  padding-left: 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+@keyframes alertBlink {
+  0% { box-shadow: 0 0 10px red; }
+  50% { box-shadow: 0 0 20px red; }
+  100% { box-shadow: 0 0 10px red; }
+}
+
+.radar-alert {
+  animation: alertBlink 1s infinite;
+  border-color: red;
+}
+@keyframes blinkTarget {
+  0% { fill: red; }
+  50% { fill: yellow; }
+  100% { fill: red; }
+}
+
+.blinking {
+  animation: blinkTarget 0.5s infinite;
+}
+@keyframes rotateRadar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+#scan-line-group {
+  transform-origin: 100px 100px;
+  animation: rotateRadar 2s linear infinite;
+}
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 10px #00ffff; }
+  50% { box-shadow: 0 0 20px #00ffff; }
+  100% { box-shadow: 0 0 10px #00ffff; }
+}
+
+.active {
+  animation: pulseGlow 1.5s infinite;
+  color: #00ffff;
+}
+.threat-matrix-panel {
+  background-color: #000000;
+  border: 1px solid #1a1f2b;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.threat-matrix-panel h2 {
+  color: #ff3b3b;
+  text-shadow: 0 0 5px #ff3b3b;
+  margin-bottom: 10px;
+}
+
+#threat-list {
+  list-style: none;
+  padding: 0;
+}
+
+#threat-list li {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: #cceeff;
+}
+
+.low {
+  color: #00ffcc;
+}
+
+.medium {
+  color: #ffff66;
+}
+
+.high {
+  color: #ff3b3b;
+  font-weight: bold;
+}
+.top-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 20px;
+}
+
+.metrics-panel {
+  flex: 1;
+  color: #0ff;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.gauge {
+  margin-bottom: 15px;
+}
+
+.gauge label {
+  display: block;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+  color: #00ffff;
+  text-shadow: 0 0 3px #00ffff;
+}
+
+.bar {
+  background: #111;
+  border: 1px solid #0ff;
+  height: 20px;
+  width: 100%;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.fill {
+  background: linear-gradient(to right, #0ff, #00f);
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+.gauge span {
+  float: right;
+  font-size: 0.8em;
+  margin-top: 5px;
+  color: #cceeff;
+}
+
+.radar-panel {
+  flex: 0 0 220px;
+  text-align: center;
+}
+/* グリッド密度別スタイル */
+.grid-fine {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.grid-medium {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.grid-coarse {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.grid-light {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,255,0.2) 0%, transparent 70%);
+  pointer-events: none;
+  animation: moveLight 10s infinite linear;
+  z-index: 0;
+}
+
+@keyframes moveLight {
+  0%   { transform: translate(0px, 0px); }
+  25%  { transform: translate(300px, 100px); }
+  50%  { transform: translate(150px, 250px); }
+  75%  { transform: translate(400px, 50px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+.grid-light {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,255,0.08) 0%, transparent 80%);
+  pointer-events: none;
+  transition: transform 2s ease;
+  z-index: 0;
+  filter: url(#glow-filter);
+}
+body {
+  background-color: #000;
+  color: #cceeff;
+  font-family: 'Orbitron', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-areas:
+    "metrics map radar"
+    "status traffic threat"
+    "status log threat";
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 12px;
+  padding: 20px;
+}
+
+.panel {
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid #00ffff33;
+  padding: 16px;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* グリッド密度 */
+.grid-fine {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.grid-medium {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.grid-coarse {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.map-panel {
+  grid-area: map;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid #00ffff33;
+  padding: 16px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.worldmap-img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  width: 100%;
+  aspect-ratio: 2 / 1; /* 横長比率を維持 */
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 0 12px #00ffff33;
+  margin-top: 12px;
+}
+.metrics-panel,
+.map-panel,
+.radar-panel,
+.status-panel,
+.traffic-panel,
+.log-panel,
+.threat-matrix-panel {
+  background-color: rgba(0, 0, 0, 0.4); /* 半透明の黒 */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* 薄い枠線で浮かせる */
+  border-radius: 8px;
+  padding: 16px;
+  backdrop-filter: blur(2px); /* 背景を軽くぼかす */
+}
+
+
+
