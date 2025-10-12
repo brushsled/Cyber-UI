@@ -427,3 +427,23 @@ section {
   color: #ff4444;
   text-shadow: 0 0 5px #ff4444, 0 0 10px #ff4444, 0 0 20px #ff0000;
 }
+.google-apps {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  gap: 10px;
+  justify-content: center;
+}
+.google-apps a {
+  text-align: center;
+  text-decoration: none;
+  color: #1193e9;
+}
+.google-apps img {
+  width: 48px;
+  height: 48px;
+}
+.google-apps span {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+}
