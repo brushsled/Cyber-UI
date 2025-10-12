@@ -208,3 +208,8 @@ setInterval(() => {
     light.style.transform = `translate(${x}px, ${y}px)`;
   });
 }, 3000);
+const maxX = window.innerWidth - 250;
+const maxY = window.innerHeight - 250;
+const x = Math.random() * maxX;
+const y = Math.random() * maxY;
+
