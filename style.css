@@ -329,21 +329,8 @@ body {
   padding: 16px;
   backdrop-filter: blur(2px); /* 背景を軽くぼかす */
 }
-/* PC向けレイアウト */
-@media (min-width: 1024px) {
-  .dashboard {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
 
-/* スマホ向けレイアウト */
-@media (max-width: 768px) {
-  .dashboard {
-    display: flex;
-    flex-direction: column;
-  }
-}
+
 
 
 
