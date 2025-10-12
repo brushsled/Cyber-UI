@@ -419,3 +419,11 @@ section {
   box-shadow: none;
   border: none;
 }
+.glow-text {
+  color: #00ffff; /* 好きな色に変更可能 */
+  text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff;
+}
+.glow-red {
+  color: #ff4444;
+  text-shadow: 0 0 5px #ff4444, 0 0 10px #ff4444, 0 0 20px #ff0000;
+}
