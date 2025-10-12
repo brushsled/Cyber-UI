@@ -70,7 +70,8 @@ function addLogEntry() {
     "Alert dispatched to monitoring node #B03",
     "Response protocol initiated",
     "Threat containment procedure active",
-    "Status: STABLE / Monitoring continues"
+    "Status: STABLE / Monitoring continues",
+    "Critical breach detected: ID#X99Z (Severity: High)"
   ];
 
   const message = logMessages[Math.floor(Math.random() * logMessages.length)];
@@ -100,6 +101,17 @@ function addLogEntry() {
     // Threat Matrix に追加
     addThreat("ID#" + Math.floor(Math.random() * 1000), "Cyber Intrusion", "Medium");
   }
+  if (message.includes("Critical breach detected")) {
+  radarPanel.classList.add("radar-alert");
+  targetDot.classList.add("blinking");
+  setTimeout(() => {
+    radarPanel.classList.remove("radar-alert");
+    targetDot.classList.remove("blinking");
+  }, 5000);
+
+  // Threat Matrix に重大な脅威を追加
+  addThreat("ID#" + Math.floor(Math.random() * 1000), "System Breach", "High");
+}
 
   // グラフ更新
   const label = timestamp.slice(1, 6);
@@ -199,17 +211,17 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateSystemStatus, 5000);
   setInterval(updateMetricsPanel, 3000); // ← これが必要
 });
-const lights = document.querySelectorAll('.grid-light');
+if (message.includes("Critical breach detected")) {
+  radarPanel.classList.add("radar-alert");
+  targetDot.classList.add("blinking");
+  setTimeout(() => {
+    radarPanel.classList.remove("radar-alert");
+    targetDot.classList.remove("blinking");
+  }, 5000);
 
-setInterval(() => {
-  lights.forEach(light => {
-    const x = Math.random() * window.innerWidth;
-    const y = Math.random() * window.innerHeight;
-    light.style.transform = `translate(${x}px, ${y}px)`;
-  });
-}, 3000);
-const maxX = window.innerWidth - 250;
-const maxY = window.innerHeight - 250;
-const x = Math.random() * maxX;
-const y = Math.random() * maxY;
+  // Threat Matrix に重大な脅威を追加
+  addThreat("ID#" + Math.floor(Math.random() * 1000), "System Breach", "High");
+}
+
+
 
