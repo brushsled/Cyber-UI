@@ -329,6 +329,13 @@ body {
   padding: 16px;
   backdrop-filter: blur(2px); /* 背景を軽くぼかす */
 }
+body {
+  overflow-x: hidden;
+}
+section {
+  position: relative;
+  overflow: hidden;
+}
 
 
 
