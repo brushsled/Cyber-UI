@@ -59,7 +59,7 @@
   <div class="top-section">
     <section class="metrics-panel grid-fine">
       <div class="grid-light"></div>
-      <h2>METRICS</h2>
+      <h2><div class="glow-text">METRICS</div></h2>
       <div class="gauge"><label>CPU LOAD</label><div class="bar"><div class="fill" id="gauge-cpu"></div></div><span id="val-cpu">45%</span></div>
       <div class="gauge"><label>TEMPERATURE</label><div class="bar"><div class="fill" id="gauge-temp"></div></div><span id="val-temp">54°C</span></div>
       <div class="gauge"><label>MEMORY USAGE</label><div class="bar"><div class="fill" id="gauge-mem"></div></div><span id="val-mem">41%</span></div>
@@ -69,21 +69,21 @@
 
   <section class="map-panel grid-medium">
   <div class="grid-light"></div>
-  <h2>WORLD MAP</h2>
+  <h2><div class="glow-text">WORLD MAP</div></h2>
   <div id="world-map-section">
   <div class="map-container">
     <img id="world-map-image" src="img/9765538-1.jpg" alt="World Map">
   </div>
   <div class="map-controls">
-    <button onclick="prevMap()">⟵ PREV</button>
-    <button onclick="nextMap()">NEXT ⟶</button>
+    <button onclick="prevMap()"><div class="glow-text">⟵ PREV</div></button>
+    <button onclick="nextMap()"><div class="glow-text">NEXT ⟶</div></button>
   </div>
   </div>
   </section>
 
   <section class="radar-panel grid-medium" id="radar-panel">
       <div class="grid-light"></div>
-      <h2>TARGET LOCKED</h2>
+      <h2><div class="glow-text">TARGET LOCKED</div></h2>
       <svg id="radar-svg" width="200" height="200" viewBox="0 0 200 200">
         <circle cx="100" cy="100" r="90" stroke="#00ffff" stroke-width="2" fill="none" />
         <circle cx="100" cy="100" r="60" stroke="#00ffff" stroke-width="1" fill="none" />
@@ -104,7 +104,7 @@
   <div class="dashboard">
     <section class="status-panel grid-coarse">
       <div class="grid-light"></div>
-      <h2>SYSTEM STATUS</h2>
+      <h2><div class="glow-text">SYSTEM STATUS</div></h2>
       <p>CPU USAGE: <span id="cpu-usage">35%</span></p>
       <p>MEMORY CONSUMPTION: <span id="memory-usage">3.2 / 16 GB</span></p>
       <p>BIOS VERSION: <span id="bios-version">A17X-3.4.2</span></p>
@@ -114,19 +114,19 @@
 
     <section class="traffic-panel grid-medium">
       <div class="grid-light"></div>
-      <h2>TRAFFIC ANALYSIS</h2>
+      <h2><div class="glow-text">TRAFFIC ANALYSIS</div></h2>
       <canvas id="trafficChart"></canvas>
     </section>
 
     <section class="log-panel grid-fine">
       <div class="grid-light"></div>
-      <h2>EVENT LOG</h2>
+      <h2><div class="glow-text">EVENT LOG</div></h2>
       <ul id="event-log"></ul>
     </section>
 
     <section class="threat-matrix-panel grid-coarse">
       <div class="grid-light"></div>
-      <h2>THREAT MATRIX</h2>
+      <h2><div class="glow-red">THREAT MATRIX</div></h2>
       <ul id="threat-list"></ul>
     </section>
   </div>
@@ -162,4 +162,3 @@
 </script>
 </body>
 </html>
-
