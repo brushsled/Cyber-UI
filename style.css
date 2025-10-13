@@ -180,7 +180,7 @@ h2 {
 }
 
 .fill {
-  background: linear-gradient(to right, #0ff, #00f);
+  background: linear-gradient(to right, rgb(1, 19, 31), rgb(0, 225, 255));
   height: 100%;
   transition: width 0.5s ease;
 }
