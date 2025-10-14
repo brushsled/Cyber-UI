@@ -155,6 +155,10 @@ h2 {
   flex: 1;
   color: #0ff;
   font-family: 'Orbitron', sans-serif;
+  min-width: 180px;
+  min-height: 400px;
+  max-width: 450px;
+  max-height: 600px;
 }
 
 .gauge {
@@ -303,10 +307,13 @@ body {
   padding: 16px;
   border-radius: 8px;
   position: relative;
+  min-width: 320px;
+  min-height: 400px;
 }
 
 .worldmap-img {
   display: block;
+  aspect-ratio: 16 / 9;
   max-width: 100%;
   height: auto;
   width: 100%;
@@ -372,13 +379,6 @@ section {
 .map-controls button:hover {
   background-color: #001f2f;
 }
-.map-container {
-  position: relative;
-  width: 100%;
-  max-width: 800px;
-  height: 500px;
-  overflow: hidden;
-}
 
 /* スキャンラインオーバーレイ */
 .map-container::before {
@@ -413,7 +413,7 @@ section {
 #world-map-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: opacity 0.5s ease-in-out;
   /* 枠は削除してOK */
   box-shadow: none;
@@ -447,3 +447,18 @@ section {
   margin-top: 5px;
   font-size: 12px;
 }
+.worldmap-section .map-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.worldmap-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+
