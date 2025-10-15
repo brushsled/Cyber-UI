@@ -198,7 +198,7 @@ h2 {
   min-width: 180px;
   min-height: 400px;
   max-width: 450px;
-  max-height: 600px;
+  max-height: 500px;
 }
 
 .gauge {
@@ -239,6 +239,7 @@ h2 {
 .radar-panel {
   flex: 0 0 220px;
   text-align: center;
+  max-height: 500px;
 }
 
 /* グリッド密度別スタイル */
@@ -365,8 +366,7 @@ body {
   padding: 16px;
   border-radius: 8px;
   position: relative;
-  min-width: 320px;
-  min-height: 400px;
+  max-height: 500px;
 }
 
 .metrics-panel,
@@ -397,13 +397,13 @@ section {
 
 #world-map-section {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .map-container {
   position: relative;
   width: 100%;
-  max-width: 800px;
+  max-width: 400px;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -509,6 +509,8 @@ section {
 .worldmap-section .map-wrapper {
   width: 100%;
   height: 100%;
+  max-width: 800px;
+  max-height: 300px;
   overflow: hidden;
 }
 
@@ -516,5 +518,4 @@ section {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
