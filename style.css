@@ -1,9 +1,11 @@
 body {
-  background-image: url('img/5432568.JPG'); /* 画像のパスを指定 */
+  background-image: url('img/5432568.JPG');
+  /* 画像のパスを指定 */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
+
 .metrics-panel,
 .radar-panel,
 .status-panel,
@@ -12,6 +14,7 @@ body {
 .threat-matrix-panel {
   position: relative;
 }
+
 section {
   background-color: #0b111f;
   border: 1px solid #1a1f2b;
@@ -56,7 +59,8 @@ h2 {
   margin-bottom: 10px;
 }
 
-.active, .online {
+.active,
+.online {
   color: #00ffcc;
   font-weight: bold;
 }
@@ -67,44 +71,78 @@ h2 {
   max-height: 200px;
   overflow-y: auto;
 }
+
 @keyframes alertBlink {
-  0% { box-shadow: 0 0 10px red; }
-  50% { box-shadow: 0 0 20px red; }
-  100% { box-shadow: 0 0 10px red; }
+  0% {
+    box-shadow: 0 0 10px red;
+  }
+
+  50% {
+    box-shadow: 0 0 20px red;
+  }
+
+  100% {
+    box-shadow: 0 0 10px red;
+  }
 }
 
 .radar-alert {
   animation: alertBlink 1s infinite;
   border-color: red;
 }
+
 @keyframes blinkTarget {
-  0% { fill: red; }
-  50% { fill: yellow; }
-  100% { fill: red; }
+  0% {
+    fill: red;
+  }
+
+  50% {
+    fill: yellow;
+  }
+
+  100% {
+    fill: red;
+  }
 }
 
 .blinking {
   animation: blinkTarget 0.5s infinite;
 }
+
 @keyframes rotateRadar {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 #scan-line-group {
   transform-origin: 100px 100px;
   animation: rotateRadar 2s linear infinite;
 }
+
 @keyframes pulseGlow {
-  0% { box-shadow: 0 0 10px #00ffff; }
-  50% { box-shadow: 0 0 20px #00ffff; }
-  100% { box-shadow: 0 0 10px #00ffff; }
+  0% {
+    box-shadow: 0 0 10px #00ffff;
+  }
+
+  50% {
+    box-shadow: 0 0 20px #00ffff;
+  }
+
+  100% {
+    box-shadow: 0 0 10px #00ffff;
+  }
 }
 
 .active {
   animation: pulseGlow 1.5s infinite;
   color: #00ffff;
 }
+
 .threat-matrix-panel {
   background-color: #000000;
   border: 1px solid #1a1f2b;
@@ -144,8 +182,10 @@ h2 {
   color: #ff3b3b;
   font-weight: bold;
 }
+
 .top-section {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 40px;
   padding: 20px;
@@ -200,44 +240,60 @@ h2 {
   flex: 0 0 220px;
   text-align: center;
 }
+
 /* グリッド密度別スタイル */
 .grid-fine {
   background-image:
-    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
 .grid-medium {
   background-image:
-    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
 .grid-coarse {
   background-image:
-    linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 60px 60px;
 }
+
 .grid-light {
   position: absolute;
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,255,255,0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
   pointer-events: none;
   animation: moveLight 10s infinite linear;
   z-index: 0;
 }
 
 @keyframes moveLight {
-  0%   { transform: translate(0px, 0px); }
-  25%  { transform: translate(300px, 100px); }
-  50%  { transform: translate(150px, 250px); }
-  75%  { transform: translate(400px, 50px); }
-  100% { transform: translate(0px, 0px); }
+  0% {
+    transform: translate(0px, 0px);
+  }
+
+  25% {
+    transform: translate(300px, 100px);
+  }
+
+  50% {
+    transform: translate(150px, 250px);
+  }
+
+  75% {
+    transform: translate(400px, 50px);
+  }
+
+  100% {
+    transform: translate(0px, 0px);
+  }
 }
 
 .grid-light {
@@ -245,12 +301,13 @@ h2 {
   width: 250px;
   height: 250px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,255,255,0.08) 0%, transparent 80%);
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.08) 0%, transparent 80%);
   pointer-events: none;
   transition: transform 2s ease;
   z-index: 0;
   filter: url(#glow-filter);
 }
+
 body {
   background-color: #000;
   color: #cceeff;
@@ -282,24 +339,25 @@ body {
 /* グリッド密度 */
 .grid-fine {
   background-image:
-    linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
 .grid-medium {
   background-image:
-    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
 .grid-coarse {
   background-image:
-    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 60px 60px;
 }
+
 .map-panel {
   grid-area: map;
   background-color: rgba(0, 0, 0, 0.6);
@@ -311,18 +369,6 @@ body {
   min-height: 400px;
 }
 
-.worldmap-img {
-  display: block;
-  aspect-ratio: 16 / 9;
-  max-width: 100%;
-  height: auto;
-  width: 100%;
-  aspect-ratio: 2 / 1; /* 横長比率を維持 */
-  object-fit: contain;
-  border-radius: 6px;
-  box-shadow: 0 0 12px #00ffff33;
-  margin-top: 12px;
-}
 .metrics-panel,
 .map-panel,
 .radar-panel,
@@ -330,19 +376,25 @@ body {
 .traffic-panel,
 .log-panel,
 .threat-matrix-panel {
-  background-color: rgba(0, 0, 0, 0.4); /* 半透明の黒 */
-  border: 1px solid rgba(255, 255, 255, 0.1); /* 薄い枠線で浮かせる */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* 半透明の黒 */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* 薄い枠線で浮かせる */
   border-radius: 8px;
   padding: 16px;
-  backdrop-filter: blur(2px); /* 背景を軽くぼかす */
+  backdrop-filter: blur(2px);
+  /* 背景を軽くぼかす */
 }
+
 body {
   overflow-x: hidden;
 }
+
 section {
   position: relative;
   overflow: hidden;
 }
+
 #world-map-section {
   text-align: center;
   margin-top: 20px;
@@ -388,13 +440,11 @@ section {
   left: 0;
   width: 100%;
   height: 200%;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(0, 255, 255, 0.55) 0px,
-    rgba(0, 255, 255, 0.55) 2px,
-    transparent 2px,
-    transparent 4px
-  );
+  background: repeating-linear-gradient(to bottom,
+      rgba(0, 255, 255, 0.55) 0px,
+      rgba(0, 255, 255, 0.55) 2px,
+      transparent 2px,
+      transparent 4px);
   animation: scanMove 4s linear infinite;
   pointer-events: none;
   z-index: 10;
@@ -404,6 +454,7 @@ section {
   0% {
     top: -100%;
   }
+
   100% {
     top: 0%;
   }
@@ -419,34 +470,42 @@ section {
   box-shadow: none;
   border: none;
 }
+
 .glow-text {
-  color: #00ffff; /* 好きな色に変更可能 */
+  color: #00ffff;
+  /* 好きな色に変更可能 */
   text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff;
 }
+
 .glow-red {
   color: #ff4444;
   text-shadow: 0 0 5px #ff4444, 0 0 10px #ff4444, 0 0 20px #ff0000;
 }
+
 .google-apps {
   display: grid;
   grid-template-columns: repeat(3, 80px);
   gap: 10px;
   justify-content: center;
 }
+
 .google-apps a {
   text-align: center;
   text-decoration: none;
   color: #1193e9;
 }
+
 .google-apps img {
   width: 48px;
   height: 48px;
 }
+
 .google-apps span {
   display: block;
   margin-top: 5px;
   font-size: 12px;
 }
+
 .worldmap-section .map-wrapper {
   width: 100%;
   height: 100%;
@@ -459,6 +518,3 @@ section {
   object-fit: cover;
   display: block;
 }
-
-
-
