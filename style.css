@@ -443,11 +443,11 @@ section {
   width: 100%;
   height: 200%;
   background: repeating-linear-gradient(to bottom,
-      rgba(0, 255, 255, 0.05) 0px,
-      rgba(0, 255, 255, 0.05) 2px,
+      rgba(0, 255, 255, 0.25) 0px,
+      rgba(0, 255, 255, 0.25) 2px,
       transparent 4px,
       transparent 8px);
-  animation: scanMove 10s linear infinite;
+  animation: scanMove 20s linear infinite;
   pointer-events: none;
   z-index: 2;
 }
