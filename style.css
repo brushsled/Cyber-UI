@@ -557,6 +557,7 @@ section {
   line-height: 1.2; /* ← 高さ調整で文字が収まりやすくなる */
   white-space: nowrap; /* ← 改行防止 */
   box-sizing: border-box;
+  width: 100%;
 }
 
 body {
