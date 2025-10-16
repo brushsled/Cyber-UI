@@ -8,6 +8,7 @@ body {
 
 .metrics-panel,
 .radar-panel,
+.map-panel,
 .status-panel,
 .traffic-panel,
 .log-panel,
@@ -365,7 +366,6 @@ body {
   border: 1px solid #00ffff33;
   padding: 16px;
   border-radius: 8px;
-  position: relative;
   max-height: 500px;
 }
 
@@ -519,4 +519,92 @@ section {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.mica-fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #00ffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 99999;
+  font-family: 'Orbitron', sans-serif;
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid #00ffff44;
+}
+
+.mica-header-form {
+  display: flex;
+  gap: 8px;
+}
+
+.mica-header-form input,
+.mica-header-form button {
+  all: unset;
+  padding: 6px 40px;
+  min-height: 36px;  /* ← 高さをしっかり確保 */
+  background-color: #111;
+  color: #00ffff;
+  border: 1px solid #00ffff66;
+  border-radius: 4px;
+  font-size: 0.9em;
+  line-height: 1.2; /* ← 高さ調整で文字が収まりやすくなる */
+  white-space: nowrap; /* ← 改行防止 */
+  box-sizing: border-box;
+}
+
+body {
+  margin-top: 60px; /* ヘッダーの高さ分だけ余白を確保 */
+}
+
+.mica-fixed-header button {
+  all: unset;
+  padding: 8px 16px;
+  background-color: #111;
+  color: #00ffff;
+  border: 1px solid #00ffff66;
+  border-radius: 4px;
+  font-size: 0.95em;
+  line-height: 1.4;
+  white-space: nowrap;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.mica-header-form button:hover {
+  background-color: #00ffff22;
+  box-shadow: 0 0 8px #00ffff88;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.mica-fixed-section {
+  display: flex;
+  flex-wrap: nowrap; /* ← 折り返しを禁止！ */
+  padding: 8px 16px;
+  overflow: hidden; /* はみ出し防止（必要に応じて） */
+  align-items: center;
+}
+
+.mica-fixed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #00ffff;
+  z-index: 9999;
+}
+
+.mica-left, .mica-right {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 0px 35px;
+  gap: 8px;
 }
