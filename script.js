@@ -1,3 +1,186 @@
+const width = 400;
+const height = 270;
+const svg = d3.select("#mapSvg");
+
+
+const projection = d3.geoMercator()
+  .scale(75)
+  .translate([width / 2, height / 2]);
+
+const path = d3.geoPath().projection(projection);
+
+// 背景画像を追加
+svg.append("image")
+  .attr("xlink:href", "img/黒 WQHD.png")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("width", width)
+  .attr("height", height)
+  .lower();
+
+// 地図データの読み込みと描画
+d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+  .then(function (data) {
+    // 地図とグリッドの描画処理
+  });
+
+d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(function (data) {
+  svg.selectAll("path")
+    .data(data.features)
+    .enter()
+    .append("path")
+    .attr("d", path)
+    .attr("fill", "none")
+    .attr("stroke", "#00ffe0")
+    .attr("stroke-width", 0.1);
+  
+  const geoGrid = [];
+
+  // 緯線（−80〜80度、10度刻み）
+  for (let lat = -80; lat <= 80; lat += 10) {
+    geoGrid.push({
+      type: "Feature",
+      geometry: {
+        type: "LineString",
+        coordinates: Array.from({ length: 37 }, (_, i) => [-180 + i * 10, lat])
+      }
+    });
+  }
+
+  // 経線（−180〜180度、10度刻み）
+  for (let lon = -180; lon <= 180; lon += 10) {
+    geoGrid.push({
+      type: "Feature",
+      geometry: {
+        type: "LineString",
+        coordinates: Array.from({ length: 17 }, (_, i) => [lon, -80 + i * 10])
+      }
+    });
+  }
+
+
+  // 描画
+  svg.selectAll(".geo-grid")
+    .data(geoGrid)
+    .enter()
+    .append("path")
+    .attr("class", "geo-grid")
+    .attr("d", path)
+    .attr("stroke", "#666")
+    .attr("stroke-width", 0.3)
+    .attr("fill", "none");
+});
+const zoom = d3.zoom()
+  .scaleExtent([1, 50]); // 最小1倍〜最大50倍
+function handleZoom(event) {
+  svg.selectAll("image").attr("transform", event.transform);
+  svg.selectAll("path").attr("transform", event.transform);
+  svg.selectAll("circle").attr("transform", event.transform);
+  svg.selectAll(".geo-grid").attr("transform", event.transform);
+}
+svg.call(zoom.on("zoom", handleZoom));
+
+// 🌍 状態管理
+let autoMode = false;
+let intervalId = null;
+
+// 🌦️ 天気取得関数
+function fetchWeather(lat, lon) {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      const weather = data.current_weather;
+      document.getElementById("location").textContent = `Lat: ${lat}, Lon: ${lon}`;
+      document.getElementById("temp").textContent = `Temp: ${weather.temperature}°C`;
+      document.getElementById("condition").textContent = `Condition: Code ${weather.weathercode}`;
+      document.getElementById("wind").textContent = `Wind: ${weather.windspeed} m/s`;
+    })
+    .catch(err => console.error("API error:", err));
+}
+
+// 🎯 ランダム座標生成
+function getRandomCoordinates(bounds) {
+  const lat = bounds.south + Math.random() * (bounds.north - bounds.south);
+  const lon = bounds.west + Math.random() * (bounds.east - bounds.west);
+  return { lat: lat.toFixed(6), lon: lon.toFixed(6) };
+}
+
+// 🔁 自動取得処理
+function fetchCoordinates() {
+  const bounds = {
+    north: 70.0,
+    south: -70.0,
+    east: 170.0,
+    west: -170.0
+  };
+  const { lat, lon } = getRandomCoordinates(bounds);
+  fetchWeather(lat, lon);
+  const screenCoords = projection([parseFloat(lon), parseFloat(lat)]);
+  const [x, y] = screenCoords;
+
+  svg.append("circle")
+    .attr("cx", x)
+    .attr("cy", y)
+    .attr("class", "glow")
+    .on("animationend", function () { d3.select(this).remove(); });
+}
+
+// 🖱️ 地図クリック（手動モード時のみ）
+svg.on("click", function (event) {
+  if (!autoMode) {
+    const [x, y] = d3.pointer(event);
+    const transform = d3.zoomTransform(svg.node());
+    const [tx, ty] = transform.invert([x, y]); // ズーム・パンの逆変換
+    const coords = projection.invert([tx, ty]);
+    const lat = coords[1].toFixed(4);
+    const lon = coords[0].toFixed(4);
+
+    svg.append("circle")
+      .attr("cx", x)
+      .attr("cy", y)
+      .attr("class", "glow")
+      .on("animationend", function () { d3.select(this).remove(); });
+
+    fetchWeather(lat, lon);
+  }
+});
+
+
+// 📝 手動フォーム送信（手動モード時のみ）
+document.getElementById("manualForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  if (!autoMode) {
+    const lat = document.getElementById("manualLat").value;
+    const lon = document.getElementById("manualLon").value;
+    fetchWeather(lat, lon);
+  }
+});
+
+// 🔘 モード切り替えボタン
+document.getElementById("toggleMode").addEventListener("click", function () {
+  autoMode = !autoMode;
+  if (autoMode) {
+  this.innerHTML = '<span class="glow-text">AUTO</span>';
+    intervalId = setInterval(fetchCoordinates, 3000);
+
+    // 🌍 ズームとパンを初期状態に戻す
+    svg.transition()
+      .duration(750)
+      .call(zoom.transform, d3.zoomIdentity);
+
+    // 🚫 ズーム・パンを禁止
+    svg.on(".zoom", null);
+  } else {
+    this.innerHTML = '<span class="auto-button">AUTO</span>';
+    clearInterval(intervalId);
+
+    // ✅ ズーム・パンを再有効化
+    svg.call(zoom.on("zoom", handleZoom));
+  }
+});
+
 // 初期化：グラフ描画
 function initChart() {
   const ctx = document.getElementById('trafficChart').getContext('2d');
@@ -102,16 +285,16 @@ function addLogEntry() {
     addThreat("ID#" + Math.floor(Math.random() * 1000), "Cyber Intrusion", "Medium");
   }
   if (message.includes("Critical breach detected")) {
-  radarPanel.classList.add("radar-alert");
-  targetDot.classList.add("blinking");
-  setTimeout(() => {
-    radarPanel.classList.remove("radar-alert");
-    targetDot.classList.remove("blinking");
-  }, 5000);
+    radarPanel.classList.add("radar-alert");
+    targetDot.classList.add("blinking");
+    setTimeout(() => {
+      radarPanel.classList.remove("radar-alert");
+      targetDot.classList.remove("blinking");
+    }, 5000);
 
-  // Threat Matrix に重大な脅威を追加
-  addThreat("ID#" + Math.floor(Math.random() * 1000), "System Breach", "High");
-}
+    // Threat Matrix に重大な脅威を追加
+    addThreat("ID#" + Math.floor(Math.random() * 1000), "System Breach", "High");
+  }
 
   // グラフ更新
   const label = timestamp.slice(1, 6);
@@ -177,8 +360,8 @@ function updateSystemStatus() {
   document.getElementById('bios-maker').textContent = makers[Math.floor(Math.random() * makers.length)];
 }
 
-// 5秒ごとに更新
-setInterval(updateSystemStatus, 5000);
+// 2秒ごとに更新
+setInterval(updateSystemStatus, 2000);
 function updateMetricsPanel() {
   const cpu = Math.floor(Math.random() * 40) + 30;
   const temp = Math.floor(Math.random() * 30) + 40;
@@ -210,18 +393,64 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(addLogEntry, 3000);
   setInterval(updateSystemStatus, 5000);
   setInterval(updateMetricsPanel, 3000); // ← これが必要
-});
-if (message.includes("Critical breach detected")) {
-  radarPanel.classList.add("radar-alert");
-  targetDot.classList.add("blinking");
-  setTimeout(() => {
-    radarPanel.classList.remove("radar-alert");
-    targetDot.classList.remove("blinking");
-  }, 5000);
 
-  // Threat Matrix に重大な脅威を追加
-  addThreat("ID#" + Math.floor(Math.random() * 1000), "System Breach", "High");
+  if (message.includes("Critical breach detected")) {
+    radarPanel.classList.add("radar-alert");
+    targetDot.classList.add("blinking");
+    setTimeout(() => {
+      radarPanel.classList.remove("radar-alert");
+      targetDot.classList.remove("blinking");
+    }, 5000);
+
+    // Threat Matrix に重大な脅威を追加
+    addThreat("ID#" + Math.floor(Math.random() * 1000), "System Breach", "High");
+  }
+});
+const mapImages = [
+  "img/地球のモニター映像.png",
+  "img/9765538-1.jpg",
+  "img/9765538-2.jpg",
+  "img/AKDP周辺.png",
+];
+let currentIndex = 0;
+
+// グローバルスコープで関数を定義
+function updateMap() {
+  const img = document.getElementById("world-map-image");
+  if (!img) {
+    console.error("画像要素が見つかりません");
+    return;
+  }
+  img.style.opacity = 0;
+  setTimeout(() => {
+    img.src = mapImages[currentIndex];
+    img.style.opacity = 1;
+  }, 300);
 }
 
+function nextMap() {
+  currentIndex = (currentIndex + 1) % mapImages.length;
+  updateMap();
+}
 
+function prevMap() {
+  currentIndex = (currentIndex - 1 + mapImages.length) % mapImages.length;
+  updateMap();
+}
+
+// メインの初期化処理に統合
+document.addEventListener('DOMContentLoaded', () => {
+  // 既存の初期化処理
+  initChart();
+  setInterval(addLogEntry, 3000);
+  setInterval(updateSystemStatus, 5000);
+  setInterval(updateMetricsPanel, 3000);
+
+  // マップ切り替え機能の初期化
+  const img = document.getElementById("world-map-image");
+  if (img) {
+    img.style.transition = 'opacity 300ms ease-in-out';
+    updateMap(); // 初期画像の設定
+  }
+});
 

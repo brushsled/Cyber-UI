@@ -1,32 +1,52 @@
 body {
-  background-image: url('img/5432568.JPG');
-  /* 画像のパスを指定 */
+  background-image: url('img/5432568.JPG');/* 画像のパスを指定 */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.metrics-panel,
-.radar-panel,
-.map-panel,
-.status-panel,
-.traffic-panel,
-.log-panel,
-.threat-matrix-panel {
-  position: relative;
+body {
+  margin: 0;
+  background-color: #000;
+  color: #00ffe0;
+  font-family: 'Orbitron', sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  margin-top: 60px;/* ヘッダーの高さ分だけ余白を確保 */
+  overflow-x: hidden;
+  color: #cceeff;
 }
 
-section {
-  background-color: #0b111f;
-  border: 1px solid #1a1f2b;
-  box-shadow: 0 0 12px rgba(0, 255, 255, 0.15);
-  padding: 15px;
+.weatherPanel {
+  min-width: 250px;
+  max-width: 100%;
+  box-sizing: border-box;
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 3px;
   border-radius: 8px;
-  transition: box-shadow 0.3s ease;
 }
 
-section:hover {
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+.glow {
+  fill: #00ffe0;
+  opacity: 0.8;
+  r: 5;
+  animation: pulse 1s ease-out forwards;
+}
+
+@keyframes pulse {
+  0% {
+    r: 5;
+    opacity: 0.8;
+  }
+
+  100% {
+    r: 20;
+    opacity: 0;
+  }
 }
 
 section:hover {
@@ -310,14 +330,6 @@ h2 {
   filter: url(#glow-filter);
 }
 
-body {
-  background-color: #000;
-  color: #cceeff;
-  font-family: 'Orbitron', sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
 .dashboard-grid {
   display: grid;
   grid-template-areas:
@@ -367,9 +379,13 @@ body {
   padding: 16px;
   border-radius: 8px;
   max-height: 500px;
+  min-width: 400px;
+  max-width: 800px;
+  flex: 1;
 }
 
 .metrics-panel,
+.weatherPanel
 .map-panel,
 .radar-panel,
 .status-panel,
@@ -381,13 +397,10 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
   /* 薄い枠線で浮かせる */
   border-radius: 8px;
-  padding: 16px;
+  padding: 6px;
   backdrop-filter: blur(2px);
   /* 背景を軽くぼかす */
-}
-
-body {
-  overflow-x: hidden;
+  position: relative;
 }
 
 section {
@@ -547,20 +560,19 @@ section {
 .mica-header-form button {
   all: unset;
   padding: 6px 40px;
-  min-height: 36px;  /* ← 高さをしっかり確保 */
+  min-height: 36px;
+  /* ← 高さをしっかり確保 */
   background-color: #111;
   color: #00ffff;
   border: 1px solid #00ffff66;
   border-radius: 4px;
   font-size: 0.9em;
-  line-height: 1.2; /* ← 高さ調整で文字が収まりやすくなる */
-  white-space: nowrap; /* ← 改行防止 */
+  line-height: 1.2;
+  /* ← 高さ調整で文字が収まりやすくなる */
+  white-space: nowrap;
+  /* ← 改行防止 */
   box-sizing: border-box;
   width: 100%;
-}
-
-body {
-  margin-top: 60px; /* ヘッダーの高さ分だけ余白を確保 */
 }
 
 .mica-fixed-header button {
@@ -585,9 +597,11 @@ body {
 
 .mica-fixed-section {
   display: flex;
-  flex-wrap: nowrap; /* ← 折り返しを禁止！ */
+  flex-wrap: nowrap;
+  /* ← 折り返しを禁止！ */
   padding: 8px 16px;
-  overflow: hidden; /* はみ出し防止（必要に応じて） */
+  overflow: hidden;
+  /* はみ出し防止（必要に応じて） */
   align-items: center;
 }
 
@@ -595,16 +609,29 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 2px;
   height: 60px;
   background-color: rgba(0, 0, 0, 0.85);
   color: #00ffff;
   z-index: 9999;
 }
 
-.mica-left, .mica-right {
+.mica-left,
+.mica-right {
   display: flex;
   flex-wrap: nowrap;
-  padding: 0px 35px;
+  padding: 0px 5px;
   gap: 8px;
+}
+
+.map-container img {
+    width: 100%;
+    height: auto;
+    transition: opacity 300ms ease-in-out;
+}
+
+.auto-button {
+  color: #343f3f;
+  background-color: #000;
+  border: 1px solid rgb(0, 225, 255);
 }
