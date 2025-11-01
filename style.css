@@ -217,9 +217,7 @@ h2 {
   color: #0ff;
   font-family: 'Orbitron', sans-serif;
   min-width: 180px;
-  min-height: 400px;
-  max-width: 450px;
-  max-height: 500px;
+  max-width: 300px;
 }
 
 .gauge {
@@ -228,7 +226,7 @@ h2 {
 
 .gauge label {
   display: block;
-  font-size: 0.9em;
+  font-size: 0.7em;
   margin-bottom: 5px;
   color: #00ffff;
   text-shadow: 0 0 3px #00ffff;
@@ -237,7 +235,7 @@ h2 {
 .bar {
   background: #111;
   border: 1px solid #0ff;
-  height: 20px;
+  height: 10px;
   width: 100%;
   position: relative;
   border-radius: 4px;
@@ -260,7 +258,8 @@ h2 {
 .radar-panel {
   flex: 0 0 220px;
   text-align: center;
-  max-height: 500px;
+  min-width: 250px;
+  flex: 1;
 }
 
 /* グリッド密度別スタイル */
@@ -378,7 +377,6 @@ h2 {
   border: 1px solid #00ffff33;
   padding: 16px;
   border-radius: 8px;
-  max-height: 500px;
   min-width: 300px;
   max-width: 800px;
   flex: 1;
@@ -443,7 +441,7 @@ section {
 .map-container {
   position: relative;
   width: 100%;
-  height: 400px;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -523,7 +521,6 @@ section {
   width: 100%;
   height: 100%;
   max-width: 1000px;
-  max-height: 400px;
   overflow: hidden;
 }
 
