@@ -33,7 +33,7 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
     .attr("fill", "none")
     .attr("stroke", "#00ffe0")
     .attr("stroke-width", 0.1);
-  
+
   const geoGrid = [];
 
   // 緯線（−80〜80度、10度刻み）
@@ -69,6 +69,15 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
     .attr("stroke", "#666")
     .attr("stroke-width", 0.3)
     .attr("fill", "none");
+  // 時計
+  svg.append("text")
+    .attr("id", "dateTimeText")
+    .attr("x", 10)
+    .attr("y", 20)
+    .attr("fill", "#fff")
+    .attr("font-size", "12px")
+    .text(""); // 初期は空
+
 });
 const zoom = d3.zoom()
   .scaleExtent([1, 50]); // 最小1倍〜最大50倍
@@ -162,7 +171,7 @@ document.getElementById("manualForm").addEventListener("submit", function (e) {
 document.getElementById("toggleMode").addEventListener("click", function () {
   autoMode = !autoMode;
   if (autoMode) {
-  this.innerHTML = '<span class="glow-text">AUTO</span>';
+    this.innerHTML = '<span class="glow-text">AUTO</span>';
     intervalId = setInterval(fetchCoordinates, 3000);
 
     // 🌍 ズームとパンを初期状態に戻す
@@ -453,4 +462,30 @@ document.addEventListener('DOMContentLoaded', () => {
     updateMap(); // 初期画像の設定
   }
 });
+
+// 日付と時刻
+function updateDateTime() {
+  const now = new Date();
+  const formatted = now.toLocaleString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+
+  // SVG内に表示する場合
+  d3.select("#dateTimeText").text(formatted);
+
+  // HTML側に表示する場合
+  const display = document.getElementById("dateTimeDisplay");
+  if (display) display.textContent = formatted;
+}
+
+// 初回表示
+updateDateTime();
+
+// 1秒ごとに更新
+setInterval(updateDateTime, 1000);
 
