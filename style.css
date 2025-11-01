@@ -14,7 +14,7 @@ body {
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 20px;
-  padding: 20px;
+  padding: 5px;
   margin-top: 60px;/* ヘッダーの高さ分だけ余白を確保 */
   overflow-x: hidden;
   color: #cceeff;
@@ -379,7 +379,7 @@ h2 {
   padding: 16px;
   border-radius: 8px;
   max-height: 500px;
-  min-width: 400px;
+  min-width: 300px;
   max-width: 800px;
   flex: 1;
 }
