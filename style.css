@@ -560,19 +560,17 @@ section {
 .mica-header-form button {
   all: unset;
   padding: 6px 40px;
-  min-height: 36px;
-  /* ← 高さをしっかり確保 */
+  min-height: 36px;/* ← 高さをしっかり確保 */
   background-color: #111;
   color: #00ffff;
   border: 1px solid #00ffff66;
   border-radius: 4px;
   font-size: 0.9em;
-  line-height: 1.2;
-  /* ← 高さ調整で文字が収まりやすくなる */
-  white-space: nowrap;
-  /* ← 改行防止 */
+  line-height: 1.2;/* ← 高さ調整で文字が収まりやすくなる */
+  white-space: nowrap;/* ← 改行防止 */
   box-sizing: border-box;
   width: 100%;
+  flex: 1;
 }
 
 .mica-fixed-header button {
