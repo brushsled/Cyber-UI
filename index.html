@@ -13,7 +13,9 @@
 
 <body>
   <header class="mica-fixed-header">
-    <div class="mica-left glow-text mica-header-form"><button onclick="location.href='index.html'">MAIN</button></div>
+    <div class="mica-left glow-text mica-header-form">
+      <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">MAIN</button>
+    </div>
     <div class="mica-right glow-text">
       <form class="mica-header-form" onsubmit="event.preventDefault();">
         <div><input type="text"></div>
@@ -39,6 +41,15 @@
       <div id="dateTimeDisplay" class="glow-text"></div>
     </h2>
     <svg id="mapSvg" viewBox="0 0 400 270" width="100%" height="auto"></svg>
+    <div class="google-apps">
+      <a href="https://google.com" target="_blank"><img src="img/りんごす.png" alt="Google"><span>
+          <div class="glow-text">Google</div>
+        </span></a>
+      <a href="https://www.bing.com" target="_blank"><img src="img/りんごす.png" alt="Bing"><span>
+          <div class="glow-text">Bing</div>
+        </span></a>
+      <!-- 他のアプリも追加可能 -->
+    </div>
   </section>
 
   <section class="weatherPanel grid-medium">
@@ -85,6 +96,24 @@
     </div>
   </section>
 
+  <section class="radar-panel grid-medium" id="radar-panel">
+    <div class="grid-light"></div>
+    <svg id="radar-svg" width="200" height="200" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="90" stroke="#00ffff" stroke-width="2" fill="none" />
+      <circle cx="100" cy="100" r="60" stroke="#00ffff" stroke-width="1" fill="none" />
+      <circle cx="100" cy="100" r="30" stroke="#00ffff" stroke-width="1" fill="none" />
+      <circle id="target1" cx="140" cy="60" r="6" fill="#00ffcc" />
+      <circle id="target2" cx="60" cy="140" r="6" fill="#00ffcc" />
+      <g id="scan-line-group">
+        <line x1="100" y1="100" x2="100" y2="10" stroke="#00ffff" stroke-width="1" />
+      </g>
+      <circle id="target-dot" cx="140" cy="60" r="6" fill="#00ffcc" />
+    </svg>
+    <p>SCAN RANGE: 250m</p>
+    <p>SIGNAL STRENGTH: 82%</p>
+    <p>TRACKING MODE: AUTO</p>
+  </section>
+
   <section class="map-panel grid-medium">
     <div class="grid-light"></div>
     <div class="section worldmap-section">
@@ -104,34 +133,6 @@
         </div>
       </div>
     </div>
-  </section>
-
-  <section class="radar-panel grid-medium" id="radar-panel">
-    <div class="grid-light"></div>
-    <svg id="radar-svg" width="200" height="200" viewBox="0 0 200 200">
-      <circle cx="100" cy="100" r="90" stroke="#00ffff" stroke-width="2" fill="none" />
-      <circle cx="100" cy="100" r="60" stroke="#00ffff" stroke-width="1" fill="none" />
-      <circle cx="100" cy="100" r="30" stroke="#00ffff" stroke-width="1" fill="none" />
-      <circle id="target1" cx="140" cy="60" r="6" fill="#00ffcc" />
-      <circle id="target2" cx="60" cy="140" r="6" fill="#00ffcc" />
-      <g id="scan-line-group">
-        <line x1="100" y1="100" x2="100" y2="10" stroke="#00ffff" stroke-width="1" />
-      </g>
-      <circle id="target-dot" cx="140" cy="60" r="6" fill="#00ffcc" />
-    </svg>
-    <p>SCAN RANGE: 250m</p>
-    <p>SIGNAL STRENGTH: 82%</p>
-    <p>TRACKING MODE: AUTO</p>
-    <div class="google-apps">
-      <a href="https://google.com" target="_blank"><img src="img/りんごす.png" alt="Google"><span>
-          <div class="glow-text">Google</div>
-        </span></a>
-      <a href="https://www.bing.com" target="_blank"><img src="img/りんごす.png" alt="Bing"><span>
-          <div class="glow-text">Bing</div>
-        </span></a>
-      <!-- 他のアプリも追加可能 -->
-    </div>
-
   </section>
 
   <section class="threat-matrix-panel grid-coarse">
