@@ -101,9 +101,26 @@ function fetchWeather(lat, lon) {
     .then(res => res.json())
     .then(data => {
       const weather = data.current_weather;
+      // 🧠 天気コード変換テーブル
+      const weatherCodeMap = {
+        0: "CLEAR",
+        1: "MAINLY CLEAR",
+        2: "PARTLY CLOUDY",
+        3: "OVERCAST",
+        45: "FOG",
+        48: "DEPOSITING FOG",
+        51: "LIGHT DRIZZLE",
+        61: "LIGHT RAIN",
+        71: "LIGHT SNOW",
+        80: "RAIN SHOWERS",
+        95: "THUNDERSTORM"
+      };
+
+      const description = weatherCodeMap[weather.weathercode] || `CODE ${weather.weathercode}`;
+
       document.getElementById("location").textContent = `Lat: ${lat}, Lon: ${lon}`;
       document.getElementById("temp").textContent = `Temp: ${weather.temperature}°C`;
-      document.getElementById("condition").textContent = `Condition: Code ${weather.weathercode}`;
+      document.getElementById("condition").textContent = `Condition: ${description}`;
       document.getElementById("wind").textContent = `Wind: ${weather.windspeed} m/s`;
     })
     .catch(err => console.error("API error:", err));
@@ -489,3 +506,39 @@ updateDateTime();
 // 1秒ごとに更新
 setInterval(updateDateTime, 1000);
 
+// サークルゲージ
+function initGauge(selector, percent, radius) {
+  const circle = document.querySelector(selector);
+  const circumference = 2 * Math.PI * radius;
+
+  circle.setAttribute("stroke-dasharray", circumference);
+  circle.setAttribute("stroke-dashoffset", circumference);
+
+  setTimeout(() => {
+    const offset = circumference * (1 - percent / 100);
+    circle.setAttribute("stroke-dashoffset", offset);
+  }, 100);
+}
+
+function updateGauge(selector, percent, radius) {
+  const circle = document.querySelector(selector);
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference * (1 - percent / 100);
+
+  circle.setAttribute("stroke-dasharray", circumference);
+  circle.setAttribute("stroke-dashoffset", offset);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // 起動時アニメーション
+  initGauge(".fg1", 45, 54);
+  initGauge(".fg2", 67, 48);
+  initGauge(".fg3", 23, 42);
+
+  // 定期更新（ダミー）
+  setInterval(() => {
+    updateGauge(".fg1", Math.floor(Math.random() * 100), 54);
+    updateGauge(".fg2", Math.floor(Math.random() * 100), 48);
+    updateGauge(".fg3", Math.floor(Math.random() * 100), 42);
+  }, 2000);
+});

@@ -3,7 +3,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color:#000
+  background-color: #000
 }
 
 body {
@@ -13,9 +13,10 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 20px;
+  gap: 5px;
   padding: 5px;
-  margin-top: 60px;/* ヘッダーの高さ分だけ余白を確保 */
+  margin-top: 60px;
+  /* ヘッダーの高さ分だけ余白を確保 */
   overflow-x: hidden;
   color: #cceeff;
 }
@@ -378,14 +379,13 @@ h2 {
   padding: 16px;
   border-radius: 8px;
   min-width: 300px;
-  max-width: 800px;
   flex: 1;
 }
 
+.c-gauge,
 .tizu,
 .metrics-panel,
-.weatherPanel
-.map-panel,
+.weatherPanel .map-panel,
 .radar-panel,
 .status-panel,
 .traffic-panel,
@@ -411,8 +411,6 @@ section {
   text-align: center;
   margin-top: 10px;
 }
-
-
 
 #world-map-image {
   width: 100%;
@@ -558,14 +556,17 @@ section {
 .mica-header-form button {
   all: unset;
   padding: 6px 40px;
-  min-height: 36px;/* ← 高さをしっかり確保 */
+  min-height: 36px;
+  /* ← 高さをしっかり確保 */
   background-color: #111;
   color: #00ffff;
   border: 1px solid #00ffff66;
   border-radius: 4px;
   font-size: 0.9em;
-  line-height: 1.2;/* ← 高さ調整で文字が収まりやすくなる */
-  white-space: nowrap;/* ← 改行防止 */
+  line-height: 1.2;
+  /* ← 高さ調整で文字が収まりやすくなる */
+  white-space: nowrap;
+  /* ← 改行防止 */
   box-sizing: border-box;
   width: 100%;
   flex: 1;
@@ -621,13 +622,82 @@ section {
 }
 
 .map-container img {
-    width: 100%;
-    height: auto;
-    transition: opacity 300ms ease-in-out;
+  width: 100%;
+  height: auto;
+  transition: opacity 300ms ease-in-out;
 }
 
 .auto-button {
   color: #343f3f;
   background-color: #000;
   border: 1px solid rgb(0, 225, 255);
+  padding: 8px;
 }
+
+#cyberGaugeHUD {
+  width: 180px;
+  height: 180px;
+}
+
+.bg {
+  stroke: transparent;
+  fill: none;
+}
+
+.fg1,
+.fg2,
+.fg3 {
+  stroke: #00ffe0;
+  fill: none;
+  filter: url(#neonGlow);
+  transition: stroke-dashoffset 0.8s ease-out;
+}
+
+.fg1 {
+  stroke-width: 4;
+}
+
+.fg2 {
+  stroke-width: 8;
+}
+
+.fg3 {
+  stroke-width: 4;
+}
+
+.layer {
+  transform-origin: 90px 90px;
+}
+
+.layer1 {
+  animation: rotateClockwise 10s linear infinite;
+}
+
+.layer2 {
+  animation: rotateCounter 20s linear infinite;
+}
+
+.layer3 {
+  animation: rotateClockwise 30s linear infinite;
+}
+
+@keyframes rotateClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateCounter {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+

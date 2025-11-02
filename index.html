@@ -54,14 +54,41 @@
 
   <section class="weatherPanel grid-medium">
     <div class="grid-light"></div>
-    <h3>
-      <div class="glow-text">Weather Info</div>
-    </h3>
     <p id="location">Click on map</p>
     <p id="temp"></p>
     <p id="condition"></p>
     <p id="wind"></p>
     <button id="toggleMode" class="auto-button">AUTO</button>
+
+    <svg width="0" height="0">
+      <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </svg>
+
+    <svg id="cyberGaugeHUD" viewBox="0 0 180 180" width="180" height="180">
+      <!-- 外側レイヤー -->
+      <g class="layer layer1">
+        <circle class="bg" cx="90" cy="90" r="54" />
+        <circle class="fg1" cx="90" cy="90" r="54" filter="url(#neonGlow)" />
+      </g>
+
+      <!-- 中央レイヤー（太め） -->
+      <g class="layer layer2">
+        <circle class="bg" cx="90" cy="90" r="48" />
+        <circle class="fg2" cx="90" cy="90" r="48" filter="url(#neonGlow)" />
+      </g>
+
+      <!-- 内側レイヤー -->
+      <g class="layer layer3">
+        <circle class="bg" cx="90" cy="90" r="42" />
+        <circle class="fg3" cx="90" cy="90" r="42" filter="url(#neonGlow)" />
+      </g>
+    </svg>
   </section>
 
   <section class="metrics-panel grid-fine">
@@ -114,6 +141,14 @@
     <p>TRACKING MODE: AUTO</p>
   </section>
 
+  <section class="threat-matrix-panel grid-coarse">
+    <div class="grid-light"></div>
+    <h2>
+      <div class="glow-red">THREAT MATRIX</div>
+    </h2>
+    <ul id="threat-list"></ul>
+  </section>
+
   <section class="map-panel grid-medium">
     <div class="grid-light"></div>
     <div class="section worldmap-section">
@@ -133,14 +168,6 @@
         </div>
       </div>
     </div>
-  </section>
-
-  <section class="threat-matrix-panel grid-coarse">
-    <div class="grid-light"></div>
-    <h2>
-      <div class="glow-red">THREAT MATRIX</div>
-    </h2>
-    <ul id="threat-list"></ul>
   </section>
 
   <section class="traffic-panel grid-medium">
