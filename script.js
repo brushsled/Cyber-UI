@@ -2,7 +2,6 @@ const width = 400;
 const height = 270;
 const svg = d3.select("#mapSvg");
 
-
 const projection = d3.geoMercator()
   .scale(75)
   .translate([width / 2, height / 2]);
@@ -21,66 +20,63 @@ svg.append("image")
 // 地図データの読み込みと描画
 d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
   .then(function (data) {
-    // 地図とグリッドの描画処理
+    svg.selectAll("path")
+      .data(data.features)
+      .enter()
+      .append("path")
+      .attr("d", path)
+      .attr("fill", "none")
+      .attr("stroke", "#00ffe0")
+      .attr("stroke-width", 0.1);
+
+    const geoGrid = [];
+
+    // 緯線（−80〜80度、10度刻み）
+    for (let lat = -80; lat <= 80; lat += 10) {
+      geoGrid.push({
+        type: "Feature",
+        geometry: {
+          type: "LineString",
+          coordinates: Array.from({ length: 37 }, (_, i) => [-180 + i * 10, lat])
+        }
+      });
+    }
+
+    // 経線（−180〜180度、10度刻み）
+    for (let lon = -180; lon <= 180; lon += 10) {
+      geoGrid.push({
+        type: "Feature",
+        geometry: {
+          type: "LineString",
+          coordinates: Array.from({ length: 17 }, (_, i) => [lon, -80 + i * 10])
+        }
+      });
+    }
+
+
+    // 描画
+    svg.selectAll(".geo-grid")
+      .data(geoGrid)
+      .enter()
+      .append("path")
+      .attr("class", "geo-grid")
+      .attr("d", path)
+      .attr("stroke", "#666")
+      .attr("stroke-width", 0.3)
+      .attr("fill", "none");
+    // 時計
+    svg.append("text")
+      .attr("id", "dateTimeText")
+      .attr("x", 10)
+      .attr("y", 20)
+      .attr("fill", "#fff")
+      .attr("font-size", "12px")
+      .text(""); // 初期は空
   });
 
-d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(function (data) {
-  svg.selectAll("path")
-    .data(data.features)
-    .enter()
-    .append("path")
-    .attr("d", path)
-    .attr("fill", "none")
-    .attr("stroke", "#00ffe0")
-    .attr("stroke-width", 0.1);
-
-  const geoGrid = [];
-
-  // 緯線（−80〜80度、10度刻み）
-  for (let lat = -80; lat <= 80; lat += 10) {
-    geoGrid.push({
-      type: "Feature",
-      geometry: {
-        type: "LineString",
-        coordinates: Array.from({ length: 37 }, (_, i) => [-180 + i * 10, lat])
-      }
-    });
-  }
-
-  // 経線（−180〜180度、10度刻み）
-  for (let lon = -180; lon <= 180; lon += 10) {
-    geoGrid.push({
-      type: "Feature",
-      geometry: {
-        type: "LineString",
-        coordinates: Array.from({ length: 17 }, (_, i) => [lon, -80 + i * 10])
-      }
-    });
-  }
-
-
-  // 描画
-  svg.selectAll(".geo-grid")
-    .data(geoGrid)
-    .enter()
-    .append("path")
-    .attr("class", "geo-grid")
-    .attr("d", path)
-    .attr("stroke", "#666")
-    .attr("stroke-width", 0.3)
-    .attr("fill", "none");
-  // 時計
-  svg.append("text")
-    .attr("id", "dateTimeText")
-    .attr("x", 10)
-    .attr("y", 20)
-    .attr("fill", "#fff")
-    .attr("font-size", "12px")
-    .text(""); // 初期は空
-
-});
 const zoom = d3.zoom()
   .scaleExtent([1, 50]); // 最小1倍〜最大50倍
+
 function handleZoom(event) {
   svg.selectAll("image").attr("transform", event.transform);
   svg.selectAll("path").attr("transform", event.transform);
@@ -210,6 +206,10 @@ document.getElementById("toggleMode").addEventListener("click", function () {
 // 初期化：グラフ描画
 function initChart() {
   const ctx = document.getElementById('trafficChart').getContext('2d');
+  // すでにグラフが存在していたら破棄
+  if (window.trafficChart && typeof window.trafficChart.destroy === 'function') {
+    window.trafficChart.destroy();
+  }
   window.trafficChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -289,7 +289,6 @@ function addLogEntry() {
   const li = document.createElement('li');
   li.textContent = `${timestamp} ${message}`;
   logContainer.appendChild(li);
-
   if (logContainer.children.length > 50) {
     logContainer.removeChild(logContainer.firstChild);
   }
@@ -299,6 +298,17 @@ function addLogEntry() {
   // レーダー反応
   const radarPanel = document.getElementById('radar-panel');
   const targetDot = document.getElementById('target-dot');
+  if (message.includes("Critical breach detected")) {
+    radarPanel.classList.add("radar-alert");
+    targetDot.classList.add("blinking");
+    setTimeout(() => {
+      radarPanel.classList.remove("radar-alert");
+      targetDot.classList.remove("blinking");
+    }, 5000);
+
+    // Threat Matrix に重大な脅威を追加
+    addThreat("ID#" + Math.floor(Math.random() * 1000), "System Breach", "High");
+  }
   if (message.includes("Anomaly detected")) {
     radarPanel.classList.add("radar-alert");
     targetDot.classList.add("blinking");
@@ -350,6 +360,10 @@ setInterval(() => {
 
 // 初期化とログ更新開始
 document.addEventListener('DOMContentLoaded', () => {
+  // すでにグラフが存在していたら破棄
+  if (window.trafficChart && typeof window.trafficChart.destroy === 'function') {
+    window.trafficChart.destroy();
+  }
   initChart();
   setInterval(addLogEntry, 3000);
 });
@@ -415,22 +429,14 @@ function updateMetricsPanel() {
 
 // 初期化時に追加
 document.addEventListener('DOMContentLoaded', () => {
+  // すでにグラフが存在していたら破棄
+  if (window.trafficChart && typeof window.trafficChart.destroy === 'function') {
+    window.trafficChart.destroy();
+  }
   initChart();
   setInterval(addLogEntry, 3000);
   setInterval(updateSystemStatus, 5000);
   setInterval(updateMetricsPanel, 3000); // ← これが必要
-
-  if (message.includes("Critical breach detected")) {
-    radarPanel.classList.add("radar-alert");
-    targetDot.classList.add("blinking");
-    setTimeout(() => {
-      radarPanel.classList.remove("radar-alert");
-      targetDot.classList.remove("blinking");
-    }, 5000);
-
-    // Threat Matrix に重大な脅威を追加
-    addThreat("ID#" + Math.floor(Math.random() * 1000), "System Breach", "High");
-  }
 });
 const mapImages = [
   "img/地球のモニター映像.png",
@@ -466,7 +472,10 @@ function prevMap() {
 
 // メインの初期化処理に統合
 document.addEventListener('DOMContentLoaded', () => {
-  // 既存の初期化処理
+  // すでにグラフが存在していたら破棄
+  if (window.trafficChart && typeof window.trafficChart.destroy === 'function') {
+    window.trafficChart.destroy();
+  }
   initChart();
   setInterval(addLogEntry, 3000);
   setInterval(updateSystemStatus, 5000);
@@ -542,3 +551,42 @@ document.addEventListener("DOMContentLoaded", () => {
     updateGauge(".fg3", Math.floor(Math.random() * 100), 42);
   }, 2000);
 });
+
+document.body.style.backgroundImage = "url('img/cyber-background.png')";
+
+function changeBackground() {
+  document.body.style.backgroundImage = "url('img/DSC_0412.webp')";
+}
+
+function greenBackground() {
+  document.body.style.backgroundImage = "url('img/green-white 5px256.png')";
+}
+
+function defaultsBackground() {
+  document.body.style.backgroundImage = "url('img/cyber-background.png')";
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  const mapImage = document.getElementById("world-map-image");
+  const input = document.getElementById("micaInput").value.trim().toLowerCase();
+  const header = document.getElementById("micaHeader");
+
+  const foxKeywords = ["fox", "きつね", "狐", "ミカ", "赤い動物"];
+  const luciferKeywords = ["lucifer", "ルシファー", "LUCIFER", "るしふぁー"];
+  // ヘッダーの色変更（例）
+  if (foxKeywords.includes(input)) {
+    header.style.backgroundColor = "#ffa07a";
+  } else {
+    header.style.backgroundColor = "";
+  }
+
+  // 隠し画像の表示
+  if (luciferKeywords.includes(input)) {
+    mapImage.src = "img/lucifer_secret.png"; // ← ここに隠し画像のパスを入れてね
+    mapImage.alt = "隠された世界";
+  } else {
+    mapImage.src = "img/地球のモニター映像.png"; // 元の画像に戻す
+    mapImage.alt = "世界地図";
+  }
+}

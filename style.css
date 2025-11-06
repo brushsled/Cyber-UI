@@ -1,33 +1,35 @@
 body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
   background-image: url('img/cyber-background.png');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  background-color: #000
-}
-
-body {
-  margin: 0;
-  color: #00ffe0;
+  background-repeat: repeat-y;
+  background-color: #000;
   font-family: 'Orbitron', sans-serif;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 5px;
-  padding: 5px;
-  margin-top: 60px;
-  /* ヘッダーの高さ分だけ余白を確保 */
   overflow-x: hidden;
   color: #cceeff;
 }
+
+
+.main-content {
+  margin-top: 60px;
+  height: calc(100vh - 60px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 5px;
+}
+
 
 .weatherPanel {
   min-width: 250px;
   max-width: 100%;
   box-sizing: border-box;
   flex: 1;
-  background-color: rgba(0, 0, 0, 0.3);
   padding: 3px;
+  max-height: 400px;
 }
 
 .glow {
@@ -49,13 +51,12 @@ body {
   }
 }
 
-section:hover {
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
-}
+
 
 h2 {
   color: #00ffff;
   text-shadow: 0 0 5px #00ffff;
+  margin-bottom: 10px;
 }
 
 .dashboard {
@@ -64,19 +65,6 @@ h2 {
   grid-auto-rows: auto;
   gap: 20px;
   padding: 20px;
-}
-
-section {
-  background-color: #000000;
-  border: 1px solid #1a1f2b;
-  box-shadow: 0 0 12px rgba(0, 255, 255, 0.15);
-  padding: 15px;
-  transition: box-shadow 0.3s ease;
-}
-
-h2 {
-  color: #00ffff;
-  margin-bottom: 10px;
 }
 
 .active,
@@ -164,11 +152,10 @@ h2 {
 }
 
 .threat-matrix-panel {
-  background-color: #000000;
-  border: 1px solid #1a1f2b;
-  box-shadow: 0 0 12px rgba(255, 0, 0, 0.2);
   padding: 20px;
-  min-width: 400px;
+  min-width: 250px;
+  max-width: 300px;
+  max-height: 400px;
 }
 
 #threat-list {
@@ -195,24 +182,22 @@ h2 {
   font-weight: bold;
 }
 
-.top-section {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 40px;
-  padding: 20px;
-}
-
 .metrics-panel {
   flex: 1;
   color: #0ff;
   font-family: 'Orbitron', sans-serif;
   min-width: 180px;
   max-width: 300px;
+  max-height: 400px;
 }
 
 .status-panel {
-  min-width: 360px;
+  background-image: url('img/cyber-tag.svg'); /* ← SVGファイル名をここに */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  max-height: 400px;
+  width: 350px;
 }
 
 .gauge {
@@ -228,8 +213,7 @@ h2 {
 }
 
 .bar {
-  background: #111;
-  border: 1px solid #0ff;
+  background: rgba(0,0,0,0);
   height: 10px;
   width: 100%;
   position: relative;
@@ -238,7 +222,7 @@ h2 {
 }
 
 .fill {
-  background: linear-gradient(to right, rgb(1, 19, 31), rgb(0, 225, 255));
+  background: linear-gradient(to right, rgba(0, 0, 0,0), rgb(0, 225, 255));
   height: 100%;
   transition: width 0.5s ease;
 }
@@ -254,7 +238,7 @@ h2 {
   flex: 0 0 220px;
   text-align: center;
   min-width: 250px;
-  flex: 1;
+  max-height: 400px;
 }
 
 /* グリッド密度別スタイル */
@@ -279,16 +263,7 @@ h2 {
   background-size: 60px 60px;
 }
 
-.grid-light {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
-  pointer-events: none;
-  animation: moveLight 10s infinite linear;
-  z-index: 0;
-}
+
 
 @keyframes moveLight {
   0% {
@@ -312,17 +287,7 @@ h2 {
   }
 }
 
-.grid-light {
-  position: absolute;
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 255, 255, 0.08) 0%, transparent 80%);
-  pointer-events: none;
-  transition: transform 2s ease;
-  z-index: 0;
-  filter: url(#glow-filter);
-}
+
 
 .dashboard-grid {
   display: grid;
@@ -367,30 +332,9 @@ h2 {
 
 .map-panel {
   grid-area: map;
-  background-color: rgba(0, 0, 0, 0.6);
-  border: 1px solid #00ffff33;
   padding: 16px;
-  min-width: 300px;
+  min-width: 350px;
   flex: 1;
-}
-
-.c-gauge,
-.tizu,
-.metrics-panel,
-.weatherPanel .map-panel,
-.radar-panel,
-.status-panel,
-.traffic-panel,
-.log-panel,
-.threat-matrix-panel {
-  background-color: rgba(0, 0, 0, 0.4);
-  /* 半透明の黒 */
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  /* 薄い枠線で浮かせる */
-  padding: 6px;
-  backdrop-filter: blur(2px);
-  /* 背景を軽くぼかす */
-  position: relative;
 }
 
 section {
@@ -401,14 +345,6 @@ section {
 #world-map-section {
   text-align: center;
   margin-top: 10px;
-}
-
-#world-map-image {
-  width: 100%;
-  height: auto;
-  transition: opacity 0.5s ease-in-out;
-  border: 2px solid #00f0ff;
-  box-shadow: 0 0 12px #00f0ff;
 }
 
 .map-controls button {
@@ -467,7 +403,6 @@ section {
   height: 100%;
   object-fit: contain;
   transition: opacity 0.5s ease-in-out;
-  /* 枠は削除してOK */
   box-shadow: none;
   border: none;
 }
@@ -493,7 +428,6 @@ section {
 .worldmap-section img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
 .mica-fixed-header {
@@ -502,17 +436,10 @@ section {
   left: 0;
   width: 100%;
   height: 60px;
-  background-color: rgba(0, 0, 0, 0.85);
-  color: #00ffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  z-index: 99999;
-  font-family: 'Orbitron', sans-serif;
-  backdrop-filter: blur(4px);
-  border-bottom: 1px solid #00ffff44;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
 }
+
 
 .mica-header-form {
   display: flex;
@@ -669,3 +596,72 @@ section {
   }
 }
 
+.img-change {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.img-change img {
+  width: 50px;
+  height: auto;
+}
+
+.img-change-2 {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.img-change-2 img {
+  width: 50px;
+  height: auto;
+}
+
+.ghost-button {
+  width: 41px; /* サイズはお好みで */
+  height: 41px;
+  background: transparent;
+  border-radius: 6px;
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  padding: 0;
+}
+
+.ghost-button:active {
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.tyuuouyose{
+  text-align: center;
+}
+
+.log-panel{
+  min-width: 300px;
+  max-height: 400px;
+}
+
+canvas {
+  display: block;
+  max-width: 600px;
+  width: 100%;
+  height: auto;
+  margin: 20px auto;
+}
+
+.traffic-panel {
+  padding: 20px;
+  background-color: transparent;
+  margin-bottom: 40px;
+  max-height: 400px;
+}
+
+.text-layout-1 {
+  padding-left: 20px;
+}
+
+.tizu {
+  max-height: 400px;
+}
