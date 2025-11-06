@@ -571,9 +571,14 @@ function handleSubmit(event) {
   const mapImage = document.getElementById("world-map-image");
   const input = document.getElementById("micaInput").value.trim().toLowerCase();
   const header = document.getElementById("micaHeader");
-
-  const foxKeywords = ["fox", "きつね", "狐", "ミカ", "赤い動物"];
+  const foxKeywords = ["fox", "きつね", "狐", "ミカ", "赤い動物"]; // ヘッダーの色変更（例）
   const luciferKeywords = ["lucifer", "ルシファー", "LUCIFER", "るしふぁー"];
+
+  mapImage.classList.add("warp-effect");
+  setTimeout(() => {
+    mapImage.classList.remove("warp-effect");
+  }, 1500); // 1.5秒後に解除
+
   // ヘッダーの色変更（例）
   if (foxKeywords.includes(input)) {
     header.style.backgroundColor = "#ffa07a";

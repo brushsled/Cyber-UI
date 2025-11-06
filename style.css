@@ -665,3 +665,35 @@ canvas {
 .tizu {
   max-height: 400px;
 }
+
+@keyframes warp {
+  0% {
+    filter: none;
+    transform: scale(1);
+  }
+  20% {
+    filter: blur(1px) contrast(1.2) brightness(1.1);
+    transform: scale(1.03) skewX(2deg);
+  }
+  40% {
+    filter: hue-rotate(20deg) saturate(1.5);
+    transform: scale(0.98) skewY(-2deg);
+  }
+  60% {
+    filter: blur(0.5px) contrast(1.4);
+    transform: scale(1.05) skewX(-3deg);
+  }
+  80% {
+    filter: hue-rotate(-15deg) brightness(1.2);
+    transform: scale(1.02) skewY(2deg);
+  }
+  100% {
+    filter: none;
+    transform: scale(1);
+  }
+}
+
+.warp-effect {
+  animation: warp 1.5s ease-in-out;
+}
+
