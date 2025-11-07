@@ -453,13 +453,10 @@ function updateMap() {
     console.error("画像要素が見つかりません");
     return;
   }
-  img.style.opacity = 0;
   setTimeout(() => {
     img.src = mapImages[currentIndex];
-    img.style.opacity = 1;
-  }, 300);
+  });
 }
-
 function nextMap() {
   currentIndex = (currentIndex + 1) % mapImages.length;
   updateMap();
@@ -484,7 +481,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // マップ切り替え機能の初期化
   const img = document.getElementById("world-map-image");
   if (img) {
-    img.style.transition = 'opacity 300ms ease-in-out';
     updateMap(); // 初期画像の設定
   }
 });
@@ -572,12 +568,12 @@ function handleSubmit(event) {
   const input = document.getElementById("micaInput").value.trim().toLowerCase();
   const header = document.getElementById("micaHeader");
   const foxKeywords = ["fox", "きつね", "狐", "ミカ", "赤い動物"]; // ヘッダーの色変更（例）
-  const luciferKeywords = ["lucifer", "ルシファー", "LUCIFER", "るしふぁー"];
+  const luciferKeywords = ["lucifer", "ルシファー", "るしふぁー", "rusifa-", "rusifa"];
 
   mapImage.classList.add("warp-effect");
   setTimeout(() => {
     mapImage.classList.remove("warp-effect");
-  }, 1500); // 1.5秒後に解除
+  }, 500); // 0.5秒後に解除
 
   // ヘッダーの色変更（例）
   if (foxKeywords.includes(input)) {
