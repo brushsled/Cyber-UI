@@ -555,7 +555,7 @@ function changeBackground() {
 }
 
 function greenBackground() {
-  document.body.style.backgroundImage = "url('img/green-white 5px256.png')";
+  document.body.style.backgroundImage = "url('img/黒 WQHD.png')";
 }
 
 function defaultsBackground() {
