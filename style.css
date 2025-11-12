@@ -196,8 +196,8 @@ h2 {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  max-height: 400px;
   width: 350px;
+  height: auto;
 }
 
 .gauge {
@@ -420,6 +420,7 @@ section {
   width: 100%;
   height: 100%;
   max-width: 1000px;
+  min-width: 350px;
   overflow: hidden;
 }
 
@@ -661,6 +662,7 @@ canvas {
 
 .tizu {
   max-height: 400px;
+  min-width: 350px;
 }
 
 @keyframes warp {
@@ -694,3 +696,6 @@ canvas {
   animation: warp 0.5s ease-in-out;
 }
 
+.status-text {
+  height: auto;
+}

@@ -1,5 +1,5 @@
-const width = 400;
-const height = 270;
+const width = 500;
+const height = 400;
 const svg = d3.select("#mapSvg");
 
 const projection = d3.geoMercator()
@@ -75,7 +75,7 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
   });
 
 const zoom = d3.zoom()
-  .scaleExtent([1, 50]); // 最小1倍〜最大50倍
+  .scaleExtent([1, 200]); // 最小1倍〜最大200倍
 
 function handleZoom(event) {
   svg.selectAll("image").attr("transform", event.transform);
@@ -377,6 +377,7 @@ function updateSystemStatus() {
   // ゲージの更新（style.width と表示テキスト）
   document.getElementById('gauge-cpu').style.width = `${cpu}%`;
   document.getElementById('val-cpu').textContent = `${cpu}%`;
+  document.getElementById('cpu-usage').textContent = `${cpu}%`;
 
   const temp = Math.floor(Math.random() * 30) + 40;
   document.getElementById('gauge-temp').style.width = `${temp}%`;
@@ -385,6 +386,7 @@ function updateSystemStatus() {
   const memPercent = Math.floor((memUsed / 16) * 100);
   document.getElementById('gauge-mem').style.width = `${memPercent}%`;
   document.getElementById('val-mem').textContent = `${memUsed} / 16 GB`;
+  document.getElementById('memory-usage').textContent = `${memUsed} / 16 GB`;
 
   const threat = Math.floor(Math.random() * 30);
   document.getElementById('gauge-threat').style.width = `${threat}%`;
@@ -555,7 +557,7 @@ function changeBackground() {
 }
 
 function greenBackground() {
-  document.body.style.backgroundImage = "url('img/黒 WQHD.png')";
+  document.body.style.backgroundImage = "url('img/黒背景.png')";
 }
 
 function defaultsBackground() {
