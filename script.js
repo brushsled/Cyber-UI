@@ -184,7 +184,7 @@ document.getElementById("manualForm").addEventListener("submit", function (e) {
 document.getElementById("toggleMode").addEventListener("click", function () {
   autoMode = !autoMode;
   if (autoMode) {
-    this.innerHTML = '<span class="glow-text">AUTO</span>';
+    this.innerHTML = '<span class="glow-text auto-button-2">AUTO</span>';
     intervalId = setInterval(fetchCoordinates, 3000);
 
     // 🌍 ズームとパンを初期状態に戻す

@@ -37,19 +37,23 @@
       </defs>
     </svg>
 
-    <section id="mapsection" class="tizu">
+    <section id="mapsection" class="tizu grid-medium">
       <h2>
         <div id="dateTimeDisplay" class="glow-text"></div>
       </h2>
       <svg id="mapSvg" viewBox="0 0 500 400" width="100%" height="100%"></svg>
     </section>
 
-    <section class="weatherPanel">
+    <section class="weatherPanel grid-medium">
       <p id="location">Click on map</p>
       <p id="temp"></p>
       <p id="condition"></p>
       <p id="wind"></p>
-      <button id="toggleMode" class="auto-button">AUTO</button>
+      <div>
+        <button id="toggleMode" class="buttonlyaut">
+          <span class="auto-button">AUTO</span>
+        </button>
+      </div>
 
       <svg width="0" height="0">
         <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
@@ -82,7 +86,7 @@
       </svg>
     </section>
 
-    <section class="metrics-panel grid-fine">
+    <section class="metrics-panel grid-medium">
       <h2 class="glow-text tyuuouyose">METRICS</h2>
       <div class="gauge"><label>CPU LOAD</label>
         <div class="bar">
@@ -136,14 +140,14 @@
       <a href="https://google.com">google</a>
     </section>
 
-    <section class="threat-matrix-panel grid-coarse">
+    <section class="threat-matrix-panel grid-medium">
       <h2>
         <div class="glow-red">THREAT MATRIX</div>
       </h2>
       <ul id="threat-list"></ul>
     </section>
 
-    <section class="map-panel">
+    <section class="map-panel grid-medium">
       <div class="section worldmap-section">
         <div id="world-map-section">
           <div class="map-controls">
@@ -163,7 +167,7 @@
       </div>
     </section>
 
-    <section class="traffic-panel">
+    <section class="traffic-panel grid-medium">
       <h2 class="tyuuouyose">
         <div class="glow-text">TRAFFIC ANALYSIS</div>
       </h2>
@@ -183,10 +187,8 @@
       </div>
     </section>
 
-    <section class="log-panel grid-fine">
-      <h2>
-        <div class="glow-text">EVENT LOG</div>
-      </h2>
+    <section class="log-panel grid-medium">
+      <h2 class="glow-text tyuuouyose">EVENT LOG</h2>
       <ul id="event-log"></ul>
     </section>
 
