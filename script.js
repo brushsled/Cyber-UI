@@ -570,7 +570,7 @@ function handleSubmit(event) {
   const input = document.getElementById("micaInput").value.trim().toLowerCase();
   const header = document.getElementById("micaHeader");
   const foxKeywords = ["fox", "きつね", "狐", "ミカ", "赤い動物"]; // ヘッダーの色変更（例）
-  const luciferKeywords = ["lucifer", "ルシファー", "るしふぁー", "rusifa-", "rusifa"];
+  const luciferKeywords = ["lucifer", "ルシファー", "rusifa-", "rusifa"];
 
   mapImage.classList.add("warp-effect");
   setTimeout(() => {
