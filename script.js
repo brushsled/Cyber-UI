@@ -571,6 +571,7 @@ function handleSubmit(event) {
   const header = document.getElementById("micaHeader");
   const foxKeywords = ["fox", "きつね", "狐", "ミカ", "赤い動物"]; // ヘッダーの色変更（例）
   const luciferKeywords = ["lucifer", "ルシファー", "rusifa-", "rusifa"];
+  const wyvernKeywords = ["wyvern", "ワイバーン", "waiba-nn"];
 
   mapImage.classList.add("warp-effect");
   setTimeout(() => {
@@ -586,8 +587,11 @@ function handleSubmit(event) {
 
   // 隠し画像の表示
   if (luciferKeywords.includes(input)) {
-    mapImage.src = "img/lucifer_secret.png"; // ← ここに隠し画像のパスを入れてね
+    mapImage.src = "img/lucifer_s.png"; // ← ここに隠し画像のパスを入れてね
     mapImage.alt = "隠された世界";
+  } else if (wyvernKeywords.includes(input)) {
+    mapImage.src = "img/wyvern_s.png"; // ← ここに隠し画像のパスを入れてね
+    mapImage.alt = "謎の世界";
   } else {
     mapImage.src = "img/地球のモニター映像.png"; // 元の画像に戻す
     mapImage.alt = "世界地図";
