@@ -598,10 +598,11 @@ function handleSubmit(event) {
     mapImage.src = "img/kraken_1.0.png"; // ← ここに隠し画像のパスを入れてね
     mapImage.alt = "自衛の世界";
   } else if (porterKeywords.includes(input)) {
-    mapImage.src = "img/porter_1.0.jpg"; // ← ここに隠し画像のパスを入れてね
+    mapImage.src = "img/porter_1.0.JPG"; // ← ここに隠し画像のパスを入れてね
     mapImage.alt = "鳩の世界";
   } else {
     mapImage.src = "img/地球のモニター映像.png"; // 元の画像に戻す
     mapImage.alt = "世界地図";
   }
+
 }
