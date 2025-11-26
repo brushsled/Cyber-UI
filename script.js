@@ -595,7 +595,7 @@ function handleSubmit(event) {
     mapImage.src = "img/wyvern_s.png"; // ← ここに隠し画像のパスを入れてね
     mapImage.alt = "謎の世界";
   } else if (krakenKeywords.includes(input)) {
-    mapImage.src = "img/kraken_1.0.png"; // ← ここに隠し画像のパスを入れてね
+    mapImage.src = "img/kraken_1.2.png"; // ← ここに隠し画像のパスを入れてね
     mapImage.alt = "自衛の世界";
   } else if (porterKeywords.includes(input)) {
     mapImage.src = "img/porter_1.0.JPG"; // ← ここに隠し画像のパスを入れてね
