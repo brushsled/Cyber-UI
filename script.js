@@ -589,7 +589,7 @@ function handleSubmit(event) {
 
   // 隠し画像の表示
   if (luciferKeywords.includes(input)) {
-    mapImage.src = "img/lucifer_1.1.png"; // ← ここに隠し画像のパスを入れてね
+    mapImage.src = "img/lucifer_1.5.png"; // ← ここに隠し画像のパスを入れてね
     mapImage.alt = "隠された世界";
   } else if (wyvernKeywords.includes(input)) {
     mapImage.src = "img/wyvern_s.png"; // ← ここに隠し画像のパスを入れてね
