@@ -167,6 +167,25 @@
       </div>
     </section>
 
+    <section>
+      <div class="analysis-container"
+        style="text-align: center; padding: 20px; background: rgba(0, 20, 30, 0.6); border: 1px solid rgba(0, 242, 255, 0.2); margin-top: 10px;">
+        <h3 style="color: #00f2ff; font-family: 'Share Tech Mono', monospace; margin-bottom: 15px;">ENVIRONMENTAL
+          SCANNER</h3>
+
+        <input type="file" id="upload-csv" accept=".csv" style="display: none;">
+        <label for="upload-csv"
+          style="cursor: pointer; padding: 5px 15px; border: 1px solid #00f2ff; color: #00f2ff; font-family: 'Share Tech Mono', monospace; background: transparent; transition: 0.3s;"
+          onmouseover="this.style.background='rgba(0,242,255,0.2)'" onmouseout="this.style.background='transparent'">
+          LOAD environment_data.csv
+        </label>
+
+        <div style="width: 100%; max-width: 400px; margin: 20px auto;">
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+    </section>
+
     <section class="traffic-panel grid-medium">
       <h2 class="tyuuouyose">
         <div class="glow-text">TRAFFIC ANALYSIS</div>
@@ -206,6 +225,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   </div>
 </body>
 

@@ -605,3 +605,96 @@ function handleSubmit(event) {
     mapImage.alt = "世界地図";
   }
 }
+// CSV読み込みのメイン処理
+document.getElementById('upload-csv').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    Papa.parse(file, {
+        skipEmptyLines: true, // 空白行を無視
+        complete: function(results) {
+            // 1行目をラベル、2行目をデータとして取得
+            const labels = results.data[0];
+            const values = results.data[1].map(v => parseFloat(v));
+
+            // 数値が正しく読み込めているか確認
+            if (labels.length > 0 && !isNaN(values[0])) {
+                initEnvironmentalChart(labels, values);
+            } else {
+                console.error("CSVデータの形式が正しくありません。");
+            }
+        }
+    });
+});
+
+function initEnvironmentalChart(labels, dataValues) {
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    
+    // 既存のチャートがある場合は確実に破棄してメモリを解放
+    if (window.envRadarChart instanceof Chart) {
+        window.envRadarChart.destroy();
+    }
+
+    // チャートの生成
+    window.envRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'ENVIRONMENTAL SCAN',
+                data: dataValues,
+                backgroundColor: 'rgba(0, 242, 255, 0.15)',
+                borderColor: '#00f2ff',
+                pointBackgroundColor: '#00f2ff',
+                pointBorderColor: '#fff',
+                pointHoverRadius: 5,
+                borderWidth: 2,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    pointLabels: {
+                        color: '#00f2ff',
+                        font: { size: 11, family: "'Share Tech Mono', monospace" }
+                    },
+                    ticks: { display: false },
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+}
+// ページ読み込み完了時に自動的にCSVを取得する
+window.addEventListener('DOMContentLoaded', () => {
+    // ファイルパスを指定（index.htmlと同じ階層にある想定）
+    const csvFilePath = 'environment_data.csv';
+
+    Papa.parse(csvFilePath, {
+        download: true,         // 外部ファイルをダウンロードして読み込む
+        header: false,          // 1行目をヘッダーとして扱わず配列で取得
+        skipEmptyLines: true,
+        complete: function(results) {
+            if (results.data && results.data.length >= 2) {
+                const labels = results.data[0];
+                const values = results.data[1].map(v => parseFloat(v));
+                
+                // 既に作成した描画関数を呼び出す
+                initEnvironmentalChart(labels, values);
+                console.log("Environment data loaded automatically.");
+            }
+        },
+        error: function(err) {
+            console.warn("自動読み込み待ち: サーバー環境、またはファイルが配置されていません。", err);
+        }
+    });
+});
