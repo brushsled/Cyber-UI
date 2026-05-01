@@ -605,6 +605,7 @@ function handleSubmit(event) {
     mapImage.alt = "世界地図";
   }
 }
+
 // CSV読み込みのメイン処理
 document.getElementById('upload-csv').addEventListener('change', function(e) {
     const file = e.target.files[0];
@@ -718,34 +719,25 @@ mapImageElement.addEventListener('click', () => {
  * 指定した行のデータを読み込んでグラフを更新する関数（例）
  */
 async function loadAndGraphData(filePath, rowNumber) {
-    const response = await fetch(filePath);
-    const reader = response.body.getReader();
-    const result = await reader.read();
-    const decoder = new TextDecoder('utf-8');
-    const csv = decoder.decode(result.value);
+    try {
+        const response = await fetch(filePath + '?v=' + new Date().getTime()); // キャッシュ対策
+        const text = await response.text();
+        const rows = text.split('\n').map(row => row.split(','));
+        
+        const labels = rows[0]; // 1行目
+        const rawData = rows[rowNumber - 1]; // 指定した行
 
-    // 改行で分割して行ごとの配列にする
-    const rows = csv.split('\n');
-    
-    // 1行目（ラベル）を取得
-    const labels = rows[0].split(','); 
-    // 指定された行（rowNumber-1）のデータを取得
-    const dataValues = rows[rowNumber - 1].split(',');
+        // 数値に変換（空白などを除外）
+        const cleanData = rawData.map(v => parseFloat(v.trim()));
 
-    // ここでグラフ更新関数（Chart.jsなど）を呼び出す
-    // updateRadarChart(labels, dataValues); 
-    
-    console.log("読み込んだラベル:", labels);
-    console.log("読み込んだ数値:", dataValues);
+        // グラフの更新処理（変数名はご自身のコードに合わせてください）
+        if (window.myRadarChart) {
+            window.myRadarChart.data.datasets[0].data = cleanData;
+            window.myRadarChart.update();
+            console.log(`${rowNumber}行目のデータでグラフを更新しました`, cleanData);
+        }
+    } catch (e) {
+        console.error("データの読み込みまたはグラフの更新に失敗しました:", e);
+    }
 }
 
-// 例：radarChart という変数名でグラフを作っている場合
-function updateRadarChart(newLabels, newDataValues) {
-    // 1. ラベルを更新
-    radarChart.data.labels = newLabels;
-    // 2. 数値を更新
-    radarChart.data.datasets[0].data = newDataValues;
-    
-    // 3. 重要！これがないと画面が変わりません
-    radarChart.update(); 
-}
