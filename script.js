@@ -698,28 +698,42 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+// HTML上の画像要素を取得
 const mapImageElement = document.getElementById('world-map-image');
 
-// 画像がクリックされた時の処理
 mapImageElement.addEventListener('click', () => {
-    // 1. 次の画像インデックスへ（4枚なので 0->1->2->3->0... とループ）
-    currentIndex = (currentIndex + 1) % mapImages.length;
-    
-    // 2. 画像の表示を更新
-    mapImageElement.src = mapImages[currentIndex];
-    
-    // 3. 対応するExcelの行番号を計算 (2行目から開始)
-    const targetRow = currentIndex + 2;
-    
-    console.log(`スキャン対象を変更: 画像 index ${currentIndex} -> Excel ${targetRow}行目を読み込みます`);
+    // 1. currentIndex は現在の画像の番号 (0, 1, 2, 3)
+    // 2. それに対応するエクセルの行番号を決定
+    const targetDataRow = currentIndex + 2; 
 
-    // 4. データを読み込む関数を実行（ここにお使いのデータ読み込みロジックを入れます）
-    loadSpecificRowData(targetRow);
+    console.log(`解析対象を変更: ${mapImages[currentIndex]} に連動して ${targetDataRow} 行目をスキャンします。`);
+
+    // 3. データを読み込む関数を呼び出す
+    // 第1引数にファイルパス、第2引数に「何行目を読み込むか」を渡す設計にします
+    loadAndGraphData("environment_data.csv", targetDataRow);
 });
 
-// データを読み込む関数のイメージ
-function loadSpecificRowData(rowNumber) {
-    // ここで Excel(CSV) をフェッチし、rowNumber 行目のデータを抽出して
-    // グラフや数値（METRICS）を書き換える処理を記述します。
-    // 例: updateDashboard(allData[rowNumber - 2]); 
+/**
+ * 指定した行のデータを読み込んでグラフを更新する関数（例）
+ */
+async function loadAndGraphData(filePath, rowNumber) {
+    const response = await fetch(filePath);
+    const reader = response.body.getReader();
+    const result = await reader.read();
+    const decoder = new TextDecoder('utf-8');
+    const csv = decoder.decode(result.value);
+
+    // 改行で分割して行ごとの配列にする
+    const rows = csv.split('\n');
+    
+    // 1行目（ラベル）を取得
+    const labels = rows[0].split(','); 
+    // 指定された行（rowNumber-1）のデータを取得
+    const dataValues = rows[rowNumber - 1].split(',');
+
+    // ここでグラフ更新関数（Chart.jsなど）を呼び出す
+    // updateRadarChart(labels, dataValues); 
+    
+    console.log("読み込んだラベル:", labels);
+    console.log("読み込んだ数値:", dataValues);
 }
