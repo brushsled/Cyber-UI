@@ -204,19 +204,22 @@ document.getElementById("toggleMode").addEventListener("click", function () {
 });
 
 // 初期化：グラフ描画
-function initChart() {
+// グラフを更新する関数（引数でラベルとデータを受け取る）
+function updateTrafficChart(newLabels, newData) {
   const ctx = document.getElementById('trafficChart').getContext('2d');
-  // すでにグラフが存在していたら破棄
+
+  // すでにグラフが存在していたら破棄（キャンバスをリセット）
   if (window.trafficChart && typeof window.trafficChart.destroy === 'function') {
     window.trafficChart.destroy();
   }
+
   window.trafficChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: ['10:23', '10:24', '10:25', '10:26'],
+      labels: newLabels, // 受け取ったラベル（エクセルの1行目など）
       datasets: [{
         label: 'Throughput (MB/s)',
-        data: [30, 45, 38, 50],
+        data: newData,   // 受け取った数値（クリックした行のデータ）
         borderColor: '#00ffff',
         backgroundColor: 'rgba(0,255,255,0.1)',
         fill: true,
@@ -224,6 +227,8 @@ function initChart() {
       }]
     },
     options: {
+      // アニメーションをさせると「解析感」が出ます
+      animation: { duration: 1000, easing: 'easeOutQuart' },
       scales: {
         x: { ticks: { color: '#cceeff' } },
         y: { ticks: { color: '#cceeff' } }
