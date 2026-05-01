@@ -204,22 +204,19 @@ document.getElementById("toggleMode").addEventListener("click", function () {
 });
 
 // 初期化：グラフ描画
-// グラフを更新する関数（引数でラベルとデータを受け取る）
-function updateTrafficChart(newLabels, newData) {
+function initChart() {
   const ctx = document.getElementById('trafficChart').getContext('2d');
-
-  // すでにグラフが存在していたら破棄（キャンバスをリセット）
+  // すでにグラフが存在していたら破棄
   if (window.trafficChart && typeof window.trafficChart.destroy === 'function') {
     window.trafficChart.destroy();
   }
-
   window.trafficChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: newLabels, // 受け取ったラベル（エクセルの1行目など）
+      labels: ['10:23', '10:24', '10:25', '10:26'],
       datasets: [{
         label: 'Throughput (MB/s)',
-        data: newData,   // 受け取った数値（クリックした行のデータ）
+        data: [30, 45, 38, 50],
         borderColor: '#00ffff',
         backgroundColor: 'rgba(0,255,255,0.1)',
         fill: true,
@@ -227,8 +224,6 @@ function updateTrafficChart(newLabels, newData) {
       }]
     },
     options: {
-      // アニメーションをさせると「解析感」が出ます
-      animation: { duration: 1000, easing: 'easeOutQuart' },
       scales: {
         x: { ticks: { color: '#cceeff' } },
         y: { ticks: { color: '#cceeff' } }
@@ -709,22 +704,15 @@ window.addEventListener('DOMContentLoaded', () => {
 const mapImageElement = document.getElementById('world-map-image');
 
 mapImageElement.addEventListener('click', () => {
+    // 1. currentIndex は現在の画像の番号 (0, 1, 2, 3)
+    // 2. それに対応するエクセルの行番号を決定
     const targetDataRow = currentIndex + 2; 
 
-    // CSVを読み込む（以前の回答の loadAndGraphData の中身を想定）
-    fetch("environment_data.csv")
-        .then(response => response.text())
-        .then(csv => {
-            const rows = csv.split('\n').map(row => row.split(','));
-            const labels = rows[0]; // 1行目
-            const rawData = rows[targetDataRow - 1]; // 選択された行
-            
-            // 数値に変換
-            const cleanData = rawData.map(v => parseFloat(v));
+    console.log(`解析対象を変更: ${mapImages[currentIndex]} に連動して ${targetDataRow} 行目をスキャンします。`);
 
-            // ★ ここでグラフ更新関数を呼ぶ！
-            updateTrafficChart(labels, cleanData);
-        });
+    // 3. データを読み込む関数を呼び出す
+    // 第1引数にファイルパス、第2引数に「何行目を読み込むか」を渡す設計にします
+    loadAndGraphData("environment_data.csv", targetDataRow);
 });
 
 /**
