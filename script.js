@@ -731,9 +731,9 @@ async function loadAndGraphData(filePath, rowNumber) {
         const cleanData = rawData.map(v => parseFloat(v.trim()));
 
         // グラフの更新処理（変数名はご自身のコードに合わせてください）
-        if (window.myRadarChart) {
-            window.myRadarChart.data.datasets[0].data = cleanData;
-            window.myRadarChart.update();
+        if (window.RadarChart) {
+            window.RadarChart.data.datasets[0].data = cleanData;
+            window.RadarChart.update();
             console.log(`${rowNumber}行目のデータでグラフを更新しました`, cleanData);
         }
     } catch (e) {
