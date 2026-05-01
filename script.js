@@ -698,6 +698,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
 // HTML上の画像要素を取得
 const mapImageElement = document.getElementById('world-map-image');
 
@@ -736,4 +737,15 @@ async function loadAndGraphData(filePath, rowNumber) {
     
     console.log("読み込んだラベル:", labels);
     console.log("読み込んだ数値:", dataValues);
+}
+
+// 例：radarChart という変数名でグラフを作っている場合
+function updateRadarChart(newLabels, newDataValues) {
+    // 1. ラベルを更新
+    radarChart.data.labels = newLabels;
+    // 2. 数値を更新
+    radarChart.data.datasets[0].data = newDataValues;
+    
+    // 3. 重要！これがないと画面が変わりません
+    radarChart.update(); 
 }
