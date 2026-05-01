@@ -698,3 +698,28 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+const mapImageElement = document.getElementById('world-map-image');
+
+// 画像がクリックされた時の処理
+mapImageElement.addEventListener('click', () => {
+    // 1. 次の画像インデックスへ（4枚なので 0->1->2->3->0... とループ）
+    currentIndex = (currentIndex + 1) % mapImages.length;
+    
+    // 2. 画像の表示を更新
+    mapImageElement.src = mapImages[currentIndex];
+    
+    // 3. 対応するExcelの行番号を計算 (2行目から開始)
+    const targetRow = currentIndex + 2;
+    
+    console.log(`スキャン対象を変更: 画像 index ${currentIndex} -> Excel ${targetRow}行目を読み込みます`);
+
+    // 4. データを読み込む関数を実行（ここにお使いのデータ読み込みロジックを入れます）
+    loadSpecificRowData(targetRow);
+});
+
+// データを読み込む関数のイメージ
+function loadSpecificRowData(rowNumber) {
+    // ここで Excel(CSV) をフェッチし、rowNumber 行目のデータを抽出して
+    // グラフや数値（METRICS）を書き換える処理を記述します。
+    // 例: updateDashboard(allData[rowNumber - 2]); 
+}
