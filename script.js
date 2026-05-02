@@ -718,26 +718,41 @@ mapImageElement.addEventListener('click', () => {
 /**
  * 指定した行のデータを読み込んでグラフを更新する関数（例）
  */
-async function loadAndGraphData(filePath, rowNumber) {
-    try {
-        const response = await fetch(filePath + '?v=' + new Date().getTime()); // キャッシュ対策
-        const text = await response.text();
-        const rows = text.split('\n').map(row => row.split(','));
+// 画像クリックイベント内の処理
+const targetDataRow = currentIndex + 2; 
+
+fetch("environment_data.csv")
+    .then(response => response.text())
+    .then(csv => {
+        // 1. CSVを行ごとに分割
+        const rows = csv.split('\n').map(row => row.split(','));
         
-        const labels = rows[0]; // 1行目
-        const rawData = rows[rowNumber - 1]; // 指定した行
+        // 2. ラベル（1行目）とデータ（targetDataRow行目）を取得
+        const labels = rows[0].map(label => label.trim());
+        const rawData = rows[targetDataRow - 1]; 
 
-        // 数値に変換（空白などを除外）
-        const cleanData = rawData.map(v => parseFloat(v.trim()));
-
-        // グラフの更新処理（変数名はご自身のコードに合わせてください）
-        if (window.RadarChart) {
-            window.RadarChart.data.datasets[0].data = cleanData;
-            window.RadarChart.update();
-            console.log(`${rowNumber}行目のデータでグラフを更新しました`, cleanData);
+        if (!rawData) {
+            console.error("指定された行にデータが見つかりません:", targetDataRow);
+            return;
         }
-    } catch (e) {
-        console.error("データの読み込みまたはグラフの更新に失敗しました:", e);
-    }
-}
+
+        // 3. データを数値配列に変換（ここが重要！）
+        const numericData = rawData.map(val => Number(val.trim()));
+
+        // 4. 既存のグラフ (trafficChart) の中身を書き換え
+        if (window.trafficChart) {
+            // ラベルの更新
+            window.trafficChart.data.labels = labels;
+            // 数値の更新（最初のデータセットを書き換え）
+            window.trafficChart.data.datasets[0].data = numericData;
+            
+            // 5. グラフを再描画
+            window.trafficChart.update();
+            
+            console.log(`${targetDataRow}行目のデータでグラフを更新しました:`, numericData);
+        } else {
+            console.error("グラフオブジェクト 'trafficChart' が見つかりません。");
+        }
+    })
+    .catch(error => console.error("CSV読み込みエラー:", error));
 
