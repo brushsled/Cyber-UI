@@ -704,15 +704,24 @@ window.addEventListener('DOMContentLoaded', () => {
 const mapImageElement = document.getElementById('world-map-image');
 
 mapImageElement.addEventListener('click', () => {
-    // 1. currentIndex は現在の画像の番号 (0, 1, 2, 3)
-    // 2. それに対応するエクセルの行番号を決定
-    const targetDataRow = currentIndex + 2; 
+    const targetDataRow = currentIndex + 2;
+    console.log("ターゲット行:", targetDataRow);
 
-    console.log(`解析対象を変更: ${mapImages[currentIndex]} に連動して ${targetDataRow} 行目をスキャンします。`);
+    fetch("environment_data.csv")
+        .then(res => res.text())
+        .then(csv => {
+            const rows = csv.trim().split('\n').map(r => r.split(','));
+            const newData = rows[targetDataRow - 1].map(v => Number(v.trim()));
 
-    // 3. データを読み込む関数を呼び出す
-    // 第1引数にファイルパス、第2引数に「何行目を読み込むか」を渡す設計にします
-    loadAndGraphData("environment_data.csv", targetDataRow);
+            // 【ここが重要】
+            // 1. 既存のグラフのデータを直接書き換える
+            window.trafficChart.data.datasets[0].data = newData;
+            // 2. 更新を反映させる
+            window.trafficChart.update();
+
+            console.log("グラフを更新しました:", newData);
+        })
+        .catch(err => console.error("エラー:", err));
 });
 
 /**
