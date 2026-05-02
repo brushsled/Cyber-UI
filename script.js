@@ -789,11 +789,19 @@ async function loadAndGraphData(rowNumber) {
     const numericData = rawData.map(val => parseFloat(val.trim()));
 
     // 5. 既存のグラフ (trafficChart) を更新する
+    // 5. 既存のグラフ (trafficChart) を更新する
     if (window.trafficChart) {
+      // ラベルの更新
       window.trafficChart.data.labels = labels;
-      window.trafficChart.data.datasets[0].data = numericData;
-      window.trafficChart.update(); // 画面を書き換え
-      console.log(`成功: ${rowNumber}行目のデータを反映しました`, numericData);
+
+      // 重要：データの配列を「新しく作り直して」代入する
+      // これにより、以前のデータの残骸（_chartjsプロパティ等）を完全にクリーンにします
+      window.trafficChart.data.datasets[0].data = [...numericData];
+
+      // グラフを再描画
+      window.trafficChart.update(); 
+      
+      console.log(`反映完了: ${rowNumber}行目のデータ`, numericData);
     }
   } catch (error) {
     console.error("CSVの読み込み中にエラーが発生しました:", error);
