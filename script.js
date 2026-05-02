@@ -704,106 +704,40 @@ window.addEventListener('DOMContentLoaded', () => {
 const mapImageElement = document.getElementById('world-map-image');
 
 mapImageElement.addEventListener('click', () => {
-    const targetDataRow = currentIndex + 2;
-    console.log("ターゲット行:", targetDataRow);
+    // 1. currentIndex は現在の画像の番号 (0, 1, 2, 3)
+    // 2. それに対応するエクセルの行番号を決定
+    const targetDataRow = currentIndex + 2; 
 
-    fetch("environment_data.csv")
-        .then(res => res.text())
-        .then(csv => {
-            const rows = csv.trim().split('\n').map(r => r.split(','));
-            const newData = rows[targetDataRow - 1].map(v => Number(v.trim()));
+    console.log(`解析対象を変更: ${mapImages[currentIndex]} に連動して ${targetDataRow} 行目をスキャンします。`);
 
-            // 【ここが重要】
-            // 1. 既存のグラフのデータを直接書き換える
-            window.trafficChart.data.datasets[0].data = newData;
-            // 2. 更新を反映させる
-            window.trafficChart.update();
-
-            console.log("グラフを更新しました:", newData);
-        })
-        .catch(err => console.error("エラー:", err));
+    // 3. データを読み込む関数を呼び出す
+    // 第1引数にファイルパス、第2引数に「何行目を読み込むか」を渡す設計にします
+    loadAndGraphData("environment_data.csv", targetDataRow);
 });
 
 /**
  * 指定した行のデータを読み込んでグラフを更新する関数（例）
  */
-// 画像クリックイベント内の処理
-const targetDataRow = currentIndex + 2; 
-
-fetch("environment_data.csv")
-    .then(response => response.text())
-    .then(csv => {
-        // 1. CSVを行ごとに分割
-        const rows = csv.split('\n').map(row => row.split(','));
+async function loadAndGraphData(filePath, rowNumber) {
+    try {
+        const response = await fetch(filePath + '?v=' + new Date().getTime()); // キャッシュ対策
+        const text = await response.text();
+        const rows = text.split('\n').map(row => row.split(','));
         
-        // 2. ラベル（1行目）とデータ（targetDataRow行目）を取得
-        const labels = rows[0].map(label => label.trim());
-        const rawData = rows[targetDataRow - 1]; 
+        const labels = rows[0]; // 1行目
+        const rawData = rows[rowNumber - 1]; // 指定した行
 
-        if (!rawData) {
-            console.error("指定された行にデータが見つかりません:", targetDataRow);
-            return;
+        // 数値に変換（空白などを除外）
+        const cleanData = rawData.map(v => parseFloat(v.trim()));
+
+        // グラフの更新処理（変数名はご自身のコードに合わせてください）
+        if (window.RadarChart) {
+            window.RadarChart.data.datasets[0].data = cleanData;
+            window.RadarChart.update();
+            console.log(`${rowNumber}行目のデータでグラフを更新しました`, cleanData);
         }
-
-        // 3. データを数値配列に変換（ここが重要！）
-        const numericData = rawData.map(val => Number(val.trim()));
-
-        // 4. 既存のグラフ (trafficChart) の中身を書き換え
-        if (window.trafficChart) {
-            // ラベルの更新
-            window.trafficChart.data.labels = labels;
-            // 数値の更新（最初のデータセットを書き換え）
-            window.trafficChart.data.datasets[0].data = numericData;
-            
-            // 5. グラフを再描画
-            window.trafficChart.update();
-            
-            console.log(`${targetDataRow}行目のデータでグラフを更新しました:`, numericData);
-        } else {
-            console.error("グラフオブジェクト 'trafficChart' が見つかりません。");
-        }
-    })
-    .catch(error => console.error("CSV読み込みエラー:", error));
-
-// CSVを読み込んでグラフを更新する関数
-async function loadAndGraphData(rowNumber) {
-  try {
-    // 1. CSVファイルを読み込む（キャッシュ対策で時間を付与）
-    const response = await fetch("environment_data.csv?v=" + new Date().getTime());
-    const csvText = await response.text();
-
-    // 2. 行ごとに分割
-    const rows = csvText.trim().split('\n').map(row => row.split(','));
-
-    // 3. データを取り出す
-    // rows[0] が1行目(ラベル)、rows[rowNumber-1] が指定のデータ行
-    const labels = rows[0].map(label => label.trim());
-    const rawData = rows[rowNumber - 1];
-
-    if (!rawData) {
-      console.error("指定された行にデータがありません:", rowNumber);
-      return;
+    } catch (e) {
+        console.error("データの読み込みまたはグラフの更新に失敗しました:", e);
     }
-
-    // 4. 文字列を数値に変換
-    const numericData = rawData.map(val => parseFloat(val.trim()));
-
-    // 5. 既存のグラフ (trafficChart) を更新する
-    // 5. 既存のグラフ (trafficChart) を更新する
-    if (window.trafficChart) {
-      // ラベルの更新
-      window.trafficChart.data.labels = labels;
-
-      // 重要：データの配列を「新しく作り直して」代入する
-      // これにより、以前のデータの残骸（_chartjsプロパティ等）を完全にクリーンにします
-      window.trafficChart.data.datasets[0].data = [...numericData];
-
-      // グラフを再描画
-      window.trafficChart.update(); 
-      
-      console.log(`反映完了: ${rowNumber}行目のデータ`, numericData);
-    }
-  } catch (error) {
-    console.error("CSVの読み込み中にエラーが発生しました:", error);
-  }
 }
+
