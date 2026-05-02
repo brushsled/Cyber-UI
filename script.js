@@ -765,3 +765,37 @@ fetch("environment_data.csv")
     })
     .catch(error => console.error("CSV読み込みエラー:", error));
 
+// CSVを読み込んでグラフを更新する関数
+async function loadAndGraphData(rowNumber) {
+  try {
+    // 1. CSVファイルを読み込む（キャッシュ対策で時間を付与）
+    const response = await fetch("environment_data.csv?v=" + new Date().getTime());
+    const csvText = await response.text();
+
+    // 2. 行ごとに分割
+    const rows = csvText.trim().split('\n').map(row => row.split(','));
+
+    // 3. データを取り出す
+    // rows[0] が1行目(ラベル)、rows[rowNumber-1] が指定のデータ行
+    const labels = rows[0].map(label => label.trim());
+    const rawData = rows[rowNumber - 1];
+
+    if (!rawData) {
+      console.error("指定された行にデータがありません:", rowNumber);
+      return;
+    }
+
+    // 4. 文字列を数値に変換
+    const numericData = rawData.map(val => parseFloat(val.trim()));
+
+    // 5. 既存のグラフ (trafficChart) を更新する
+    if (window.trafficChart) {
+      window.trafficChart.data.labels = labels;
+      window.trafficChart.data.datasets[0].data = numericData;
+      window.trafficChart.update(); // 画面を書き換え
+      console.log(`成功: ${rowNumber}行目のデータを反映しました`, numericData);
+    }
+  } catch (error) {
+    console.error("CSVの読み込み中にエラーが発生しました:", error);
+  }
+}
