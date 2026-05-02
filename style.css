@@ -741,3 +741,106 @@ canvas {
     0 10px                       /* 左上角の内側 */
   );
 }
+
+.neon-textured {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: block;      /* inline-block から変更 */
+    width: 100%;        /* 横幅をいっぱいまで広げる */
+    text-align: center;  /* 広がった幅の中で、文字を中央に寄せる */
+
+  /* 1. 全体的に明度を落としたグラデーション */
+  background: linear-gradient(
+    110deg,
+    #a0e2e6 0%,    /* 最も明るい部分も「白」ではなく「淡い水色」に */
+    #00aeb8 15%,   /* メインの色を暗めに */
+    #003a3d 35%,   /* 影の部分をより深く（背景に馴染むよう） */
+    #00aeb8 50%,
+    #82d5db 60%,   /* セカンドハイライト */
+    #004e53 85%,
+    #00aeb8 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  /* 2. 外光（グロー）をより控えめに、かつ深く */
+  /* ぼかし距離を抑え、ボヤけすぎないように調整 */
+  filter: drop-shadow(0 0 1px rgba(0, 174, 184, 0.5))
+          drop-shadow(0 0 4px rgba(0, 174, 184, 0.2));
+
+  animation: 
+    neon-pulse 40s linear infinite, 
+    neon-flicker 6s infinite; /* 少し周期を伸ばして落ち着かせる */
+}
+
+/* 質感のゆらぎ（40秒かけて一周） */
+@keyframes neon-pulse {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* 不規則な点滅（さらに控えめな明滅） */
+@keyframes neon-flicker {
+  0%, 70%, 72%, 75%, 77%, 82%, 91%, 94%, 100% {
+    opacity: 0.9; /* 通常時も100%ではなく、少し透かすことで背景と馴染ませる */
+  }
+  71%, 76%, 80%, 93% {
+    opacity: 0.5;
+    filter: brightness(80%);
+  }
+  73%, 81% {
+    opacity: 0.3;
+    filter: brightness(110%);
+  }
+}
+
+.neon-metrics {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 3px;
+  display: block;      /* inline-block から変更 */
+    width: 100%;        /* 横幅をいっぱいまで広げる */
+    text-align: center;  /* 広がった幅の中で、文字を中央に寄せる */
+
+  /* 質感：Scannerより少し「硬い」色味に変更 */
+  background: linear-gradient(
+    110deg,
+    #98e5e9 0%,    /* 少しだけ白に近い */
+    #0097a1 20%,
+    #002426 40%,   /* 影を鋭く */
+    #0097a1 60%,
+    #bffffc 75%,
+    #003d40 90%,
+    #0097a1 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  /* アニメーション：呼吸(pulse) と 鋭い点滅(double-flicker) */
+  animation: 
+    metrics-pulse 10s ease-in-out infinite, 
+    metrics-double-flicker 7s infinite;
+}
+
+/* 呼吸のような緩やかな明暗変化 */
+@keyframes metrics-pulse {
+  0%, 100% { filter: brightness(100%) drop-shadow(0 0 2px rgba(0, 151, 161, 0.4)); }
+  50% { filter: brightness(80%) drop-shadow(0 0 1px rgba(0, 151, 161, 0.2)); }
+}
+
+/* 鋭い「パチッ、パチッ」という二連点滅 */
+@keyframes metrics-double-flicker {
+  0%, 80%, 83%, 86%, 100% { opacity: 1; }
+  81%, 84% { opacity: 0.4; filter: contrast(150%); } /* 1回目の瞬き */
+  82%, 85% { opacity: 1; }                          /* 復帰 */
+}
