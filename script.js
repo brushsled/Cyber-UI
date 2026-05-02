@@ -606,37 +606,20 @@ function handleSubmit(event) {
   }
 }
 
-// CSV読み込みのメイン処理
-document.getElementById('upload-csv').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    Papa.parse(file, {
-        skipEmptyLines: true, // 空白行を無視
-        complete: function(results) {
-            // 1行目をラベル、2行目をデータとして取得
-            const labels = results.data[0];
-            const values = results.data[1].map(v => parseFloat(v));
-
-            // 数値が正しく読み込めているか確認
-            if (labels.length > 0 && !isNaN(values[0])) {
-                initEnvironmentalChart(labels, values);
-            } else {
-                console.error("CSVデータの形式が正しくありません。");
-            }
-        }
-    });
-});
-
+// --- 1. グラフ描画・更新専用の関数 ---
+// 他のグラフ（TRAFFIC ANALYSISなど）には一切触れず、これだけを更新します
 function initEnvironmentalChart(labels, dataValues) {
     const ctx = document.getElementById('radarChart').getContext('2d');
     
-    // 既存のチャートがある場合は確実に破棄してメモリを解放
+    // 既にチャートがある場合は、作り直さずに「中身のデータだけ」を入れ替える
     if (window.envRadarChart instanceof Chart) {
-        window.envRadarChart.destroy();
+        window.envRadarChart.data.labels = labels;
+        window.envRadarChart.data.datasets[0].data = dataValues;
+        window.envRadarChart.update(); // これでアニメーションしながら更新される
+        return;
     }
 
-    // チャートの生成
+    // 初回実行時のみ新規作成
     window.envRadarChart = new Chart(ctx, {
         type: 'radar',
         data: {
@@ -648,7 +631,6 @@ function initEnvironmentalChart(labels, dataValues) {
                 borderColor: '#00f2ff',
                 pointBackgroundColor: '#00f2ff',
                 pointBorderColor: '#fff',
-                pointHoverRadius: 5,
                 borderWidth: 2,
                 fill: true
             }]
@@ -662,82 +644,77 @@ function initEnvironmentalChart(labels, dataValues) {
                     grid: { color: 'rgba(255, 255, 255, 0.1)' },
                     pointLabels: {
                         color: '#00f2ff',
-                        font: { size: 11, family: "'Share Tech Mono', monospace" }
+                        font: { size: 11 }
                     },
                     ticks: { display: false },
                     suggestedMin: 0,
                     suggestedMax: 100
                 }
             },
-            plugins: {
-                legend: { display: false }
-            }
+            plugins: { legend: { display: false } }
         }
     });
 }
-// ページ読み込み完了時に自動的にCSVを取得する
-window.addEventListener('DOMContentLoaded', () => {
-    // ファイルパスを指定（index.htmlと同じ階層にある想定）
-    const csvFilePath = 'environment_data.csv';
 
-    Papa.parse(csvFilePath, {
-        download: true,         // 外部ファイルをダウンロードして読み込む
-        header: false,          // 1行目をヘッダーとして扱わず配列で取得
-        skipEmptyLines: true,
-        complete: function(results) {
-            if (results.data && results.data.length >= 2) {
-                const labels = results.data[0];
-                const values = results.data[1].map(v => parseFloat(v));
-                
-                // 既に作成した描画関数を呼び出す
-                initEnvironmentalChart(labels, values);
-                console.log("Environment data loaded automatically.");
-            }
-        },
-        error: function(err) {
-            console.warn("自動読み込み待ち: サーバー環境、またはファイルが配置されていません。", err);
-        }
-    });
-});
-
-// HTML上の画像要素を取得
-const mapImageElement = document.getElementById('world-map-image');
-
-mapImageElement.addEventListener('click', () => {
-    // 1. currentIndex は現在の画像の番号 (0, 1, 2, 3)
-    // 2. それに対応するエクセルの行番号を決定
-    const targetDataRow = currentIndex + 2; 
-
-    console.log(`解析対象を変更: ${mapImages[currentIndex]} に連動して ${targetDataRow} 行目をスキャンします。`);
-
-    // 3. データを読み込む関数を呼び出す
-    // 第1引数にファイルパス、第2引数に「何行目を読み込むか」を渡す設計にします
-    loadAndGraphData("environment_data.csv", targetDataRow);
-});
-
-/**
- * 指定した行のデータを読み込んでグラフを更新する関数（例）
- */
+// --- 2. 指定した行のデータを読み込む汎用関数 ---
 async function loadAndGraphData(filePath, rowNumber) {
     try {
-        const response = await fetch(filePath + '?v=' + new Date().getTime()); // キャッシュ対策
+        // キャッシュを回避して最新のCSVを取得
+        const response = await fetch(filePath + '?v=' + new Date().getTime());
         const text = await response.text();
-        const rows = text.split('\n').map(row => row.split(','));
         
-        const labels = rows[0]; // 1行目
-        const rawData = rows[rowNumber - 1]; // 指定した行
+        // CSVを二次元配列に変換
+        const rows = text.trim().split('\n').map(row => row.split(','));
+        
+        const labels = rows[0].map(label => label.trim()); // 1行目
+        const rawData = rows[rowNumber - 1]; // 指定した行 (targetDataRow)
 
-        // 数値に変換（空白などを除外）
-        const cleanData = rawData.map(v => parseFloat(v.trim()));
+        if (!rawData) throw new Error("指定された行にデータがありません");
 
-        // グラフの更新処理（変数名はご自身のコードに合わせてください）
-        if (window.RadarChart) {
-            window.RadarChart.data.datasets[0].data = cleanData;
-            window.RadarChart.update();
-            console.log(`${rowNumber}行目のデータでグラフを更新しました`, cleanData);
-        }
+        const cleanData = rawData.map(v => parseFloat(v.trim()) || 0);
+
+        // ENVIRONMENTAL SCANNER だけを更新
+        initEnvironmentalChart(labels, cleanData);
+        
+        console.log(`[SCANNER] ${rowNumber}行目のデータを反映しました:`, cleanData);
     } catch (e) {
         console.error("データの読み込みまたはグラフの更新に失敗しました:", e);
     }
+}
+
+// --- 3. イベントリスナーの設定 ---
+
+// ページ読み込み時に初期データを自動取得 (2行目)
+window.addEventListener('DOMContentLoaded', () => {
+    loadAndGraphData('environment_data.csv', 2);
+});
+
+// マップ画像クリック時に連動
+const mapImageElement = document.getElementById('world-map-image');
+if (mapImageElement) {
+    mapImageElement.addEventListener('click', () => {
+        // currentIndex + 2 (例: 画像0枚目なら2行目、1枚目なら3行目)
+        const targetDataRow = currentIndex + 2; 
+        console.log(`解析対象を変更: ${targetDataRow} 行目をスキャン中...`);
+        
+        loadAndGraphData("environment_data.csv", targetDataRow);
+    });
+}
+
+// 手動アップロード時の処理（念のため残す場合）
+const uploadElement = document.getElementById('upload-csv');
+if (uploadElement) {
+    uploadElement.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        Papa.parse(file, {
+            skipEmptyLines: true,
+            complete: function(results) {
+                const labels = results.data[0];
+                const values = results.data[1].map(v => parseFloat(v));
+                initEnvironmentalChart(labels, values);
+            }
+        });
+    });
 }
 
