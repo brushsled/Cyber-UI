@@ -53,41 +53,11 @@
         <button id="toggleMode" class="buttonlyaut">
           <span class="auto-button">AUTO</span>
         </button>
-      </div>
-
-      <svg width="0" height="0">
-        <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </svg>
-
-      <svg id="cyberGaugeHUD" viewBox="0 0 180 180" width="180" height="180">
-        <!-- 外側レイヤー -->
-        <g class="layer layer1">
-          <circle class="bg" cx="90" cy="90" r="54" />
-          <circle class="fg1" cx="90" cy="90" r="54" filter="url(#neonGlow)" />
-        </g>
-
-        <!-- 中央レイヤー（太め） -->
-        <g class="layer layer2">
-          <circle class="bg" cx="90" cy="90" r="48" />
-          <circle class="fg2" cx="90" cy="90" r="48" filter="url(#neonGlow)" />
-        </g>
-
-        <!-- 内側レイヤー -->
-        <g class="layer layer3">
-          <circle class="bg" cx="90" cy="90" r="42" />
-          <circle class="fg3" cx="90" cy="90" r="42" filter="url(#neonGlow)" />
-        </g>
-      </svg>
+      </div>      
     </section>
 
     <section class="metrics-panel grid-medium">
-      <h2 class="neon-metrics">METRICS</h2>
+      <h2 class="neon-metrics glow-text">METRICS</h2>
       <div class="gauge"><label>CPU LOAD</label>
         <div class="bar">
           <div class="fill" id="gauge-cpu"></div>
@@ -170,7 +140,7 @@
     <section>
       <div class="analysis-container"
         style="text-align: center; padding: 20px; background: rgba(0, 20, 30, 0.6); border: 1px solid rgba(0, 242, 255, 0.2); margin-top: 10px;">
-        <h3 class="environmental-title neon-textured">ENVIRONMENTAL
+        <h3 class="environmental-title neon-textured glow-text">ENVIRONMENTAL
           SCANNER</h3>
 
         <input type="file" id="upload-csv" accept=".csv" style="display: none;">
@@ -191,6 +161,36 @@
         <div class="glow-text">TRAFFIC ANALYSIS</div>
       </h2>
       <canvas id="trafficChart"></canvas>
+
+      <svg width="0" height="0">
+        <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </svg>
+
+      <svg id="cyberGaugeHUD" viewBox="0 0 180 180" width="180" height="180">
+        <!-- 外側レイヤー -->
+        <g class="layer layer1">
+          <circle class="bg" cx="90" cy="90" r="54" />
+          <circle class="fg1" cx="90" cy="90" r="54" filter="url(#neonGlow)" />
+        </g>
+
+        <!-- 中央レイヤー（太め） -->
+        <g class="layer layer2">
+          <circle class="bg" cx="90" cy="90" r="48" />
+          <circle class="fg2" cx="90" cy="90" r="48" filter="url(#neonGlow)" />
+        </g>
+
+        <!-- 内側レイヤー -->
+        <g class="layer layer3">
+          <circle class="bg" cx="90" cy="90" r="42" />
+          <circle class="fg3" cx="90" cy="90" r="42" filter="url(#neonGlow)" />
+        </g>
+      </svg>
     </section>
 
     <section class="status-panel">
