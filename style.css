@@ -743,11 +743,6 @@ canvas {
 }
 
 .neon-textured {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
   display: block;      /* inline-block から変更 */
     width: 100%;        /* 横幅をいっぱいまで広げる */
     text-align: center;  /* 広がった幅の中で、文字を中央に寄せる */
@@ -801,10 +796,6 @@ canvas {
 }
 
 .neon-metrics {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 1.5rem;
-  font-weight: bold;
-  letter-spacing: 3px;
   display: block;      /* inline-block から変更 */
     width: 100%;        /* 横幅をいっぱいまで広げる */
     text-align: center;  /* 広がった幅の中で、文字を中央に寄せる */
