@@ -550,10 +550,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 2000);
 });
 
-document.body.style.backgroundImage = "url('img/cyber-background.png')";
+document.body.style.backgroundImage = "url('img/cyber-background2.png')";
 
 function changeBackground() {
-  document.body.style.backgroundImage = "url('img/cyber-background2.png')";
+  document.body.style.backgroundImage = "url('img/cyber-background.png')";
 }
 
 function greenBackground() {
@@ -561,7 +561,7 @@ function greenBackground() {
 }
 
 function defaultsBackground() {
-  document.body.style.backgroundImage = "url('img/cyber-background.png')";
+  document.body.style.backgroundImage = "url('img/cyber-background2.png')";
 }
 
 function handleSubmit(event) {

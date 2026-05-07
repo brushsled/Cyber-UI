@@ -2,11 +2,11 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background-image: url('img/cyber-background.png');
+  background-image: url('img/cyber-background2.png');
   background-size: cover;
   background-position: center;
   background-repeat: repeat-y;
-  background-color: #000;
+  background-color: #00000000;
   font-family: 'Orbitron', sans-serif;
   overflow-x: hidden;
   color: #cceeff;
