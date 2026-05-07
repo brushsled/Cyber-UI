@@ -550,14 +550,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 2000);
 });
 
-document.body.style.backgroundImage = "url('img/cyber-background2.png')";
-
 function changeBackground() {
   document.body.style.backgroundImage = "url('img/cyber-background.png')";
 }
 
 function greenBackground() {
-  document.body.style.backgroundImage = "url('img/黒背景.png')";
+  document.body.style.backgroundImage = "url('img/20260507_221112.png')";
 }
 
 function defaultsBackground() {
