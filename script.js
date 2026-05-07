@@ -553,7 +553,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.body.style.backgroundImage = "url('img/cyber-background.png')";
 
 function changeBackground() {
-  document.body.style.backgroundImage = "url('img/DSC_0412.webp')";
+  document.body.style.backgroundImage = "url('img/cyber-background2.png')";
 }
 
 function greenBackground() {
