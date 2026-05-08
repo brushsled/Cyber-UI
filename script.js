@@ -562,7 +562,7 @@ function greenBackground() {
 }
 
 function defaultsBackground() {
-  document.body.style.backgroundImage = "url('img/cyber-background2.png')";
+  document.body.style.backgroundImage = "url('img/cyber-background3.png')";
 }
 
 function handleSubmit(event) {
