@@ -550,6 +550,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 2000);
 });
 
+const bodyStyle = document.body.style;
+bodyStyle.backgroundImage = "url('img/cyber-background2.png')";
+
 function changeBackground() {
   document.body.style.backgroundImage = "url('img/cyber-background.png')";
 }
